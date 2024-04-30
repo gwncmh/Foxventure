@@ -47,7 +47,7 @@ void Menu::drawButtons() {
     SDL_RenderFillRect(graphics.renderer, &helprect);
     SDL_RenderFillRect(graphics.renderer, &setrect);
 }
-void Menu::render() {
+void Menu::rendermenu() {
     if (helpStarted) {
         game.showHelp();
         SDL_Rect prevrect;

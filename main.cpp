@@ -23,8 +23,7 @@ void waitUntilKeyPressed()
         SDL_Delay(100);
     }
 }
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]){
     Graphics graphics;
     graphics.init();
     FoxGame game(graphics);
@@ -35,7 +34,7 @@ int main(int argc, char *argv[])
         while (SDL_PollEvent(&event)) {
             menu.handleEvents(event);
         }
-        menu.render();
+        menu.rendermenu();
         SDL_Delay(10);
     }
     flushEventQueue();

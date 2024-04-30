@@ -32,22 +32,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="buttons.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
 		<Unit filename="def.h" />
-		<Unit filename="fox.cpp">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="fox.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="frames.cpp">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="frames.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
+		<Unit filename="game.cpp" />
 		<Unit filename="game.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>

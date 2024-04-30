@@ -2,17 +2,14 @@
 #define DEF_H_INCLUDED
 const int SCRW = 900;
 const int SCRH = 531;
-const char* WINDOW_TITLE = "Foxventure";
 
 const int MIX_CHANNEL = -1;
-const char* FOX_WALKING = "pics/fox_walk.png";
 const int WALK_CLIPS[][4] = {
     {   0, 0, 160, 128},
     { 160, 0, 160, 128},
     { 320, 0, 160, 128},
     { 480, 0, 160, 128}};
 const int WALK_FRAMES = sizeof(WALK_CLIPS)/sizeof(int)/4;
-const char* FOX_HIT = "pics/fox_hit.png";
 const int HIT_CLIPS[][4] = {
     {   0, 0, 160, 128},
     { 160, 0, 160, 128},
@@ -20,14 +17,12 @@ const int HIT_CLIPS[][4] = {
     { 480, 0, 160, 128}};
 const int HIT_FRAMES = sizeof(HIT_CLIPS)/sizeof(int)/4;
 
-const char* FOX_DEAD = "pics/fox_death.png";
 const int DEAD_CLIPS[][4] = {
     {   0, 0, 160, 128},
     { 160, 0, 160, 128},
     { 320, 0, 160, 128}};
 const int DEAD_FRAMES = sizeof(DEAD_CLIPS)/sizeof(int)/4;
 
-const char* FOX_ATTACK = "pics/fox_attack.png";
 const int ATTACK_CLIPS[][4] = {
     {   0, 0, 160, 128},
     { 160, 0, 160, 128},
@@ -41,7 +36,6 @@ const int ATTACK_CLIPS[][4] = {
     {1440, 0, 160, 128}};
 const int ATTACK_FRAMES = sizeof(ATTACK_CLIPS)/sizeof(int)/4;
 
-const char* FOX_JUMP = "pics/fox_jump.png";
 const int JUMP_CLIPS[][4] = {
     {   0, 0, 160, 230},
     { 160, 0, 160, 230},

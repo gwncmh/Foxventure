@@ -62,9 +62,9 @@ struct Graphics {
         if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
             logErrorAndExit("SDL_Init", SDL_GetError());
 
-        window = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCRW, SCRH, SDL_WINDOW_SHOWN);
+        window = SDL_CreateWindow("Foxventure", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCRW, SCRH, SDL_WINDOW_SHOWN);
         //full screen
-        //window = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCRW, SCRH, SDL_WINDOW_FULLSCREEN_DESKTOP);
+        //window = SDL_CreateWindow("Foxventure", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCRW, SCRH, SDL_WINDOW_FULLSCREEN_DESKTOP);
         if (window == nullptr) logErrorAndExit("CreateWindow", SDL_GetError());
 
         if (!IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG))

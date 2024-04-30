@@ -1,15 +1,17 @@
 #ifndef MENU_H_INCLUDED
 #define MENU_H_INCLUDED
-#include <bits/stdc++.h>
-#include "graphics.h"
+#include <iostream>
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
+#include <SDL_mixer.h>
 #include "game.h"
-
 using namespace std;
 class Menu {
 public:
     Menu(Graphics& graphics, FoxGame& game);
     void handleEvents(SDL_Event& event);
-    void render();
+    void rendermenu();
     void drawButtons();
 private:
     Graphics& graphics;
