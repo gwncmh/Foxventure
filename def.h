@@ -65,7 +65,12 @@ const int GROUNDFX = 100;
 const int GROUNDFY = 320;
 const int GROUNDSPEED = 4;
 const int FOXSPEED = 70;
-
+const int JUMP_SPEED = 2;
+const int MAX_HEIGHT = 20;
+const int FALL_SPEED = 2;
+const int JUMP = 1;
+const int FALL = 2;
+const int RUN = 0;
 /*
 const int SCREEN_BPP = 64;
 const double SCREEN_SPEED = 4;

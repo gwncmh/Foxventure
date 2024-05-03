@@ -23,6 +23,9 @@ private:
     SDL_Texture* settingsbg;
     SDL_Texture* menu;
     Graphics& graphics;
+    int status;
+    int FOXPOSY;
+    bool isJumping;
     bool quit;
 
 public:
@@ -32,6 +35,7 @@ public:
     void showSettings();
     void returnToMenu(Graphics& graphics, SDL_Rect& playrect, SDL_Rect& helprect, SDL_Rect& setrect);
     void run();
+    void foxJump();
 };
 
 #endif // GAME_H_INCLUDED

@@ -12,6 +12,8 @@ Menu::Menu(Graphics& graphics, FoxGame& game)
     playrect = {PLAY_X+17, PLAY_Y+13, 100, 100};
     helprect = {PLAY_X-63, PLAY_Y+98, 60, 60};
     setrect = {PLAY_X+135, PLAY_Y+98, 60, 60};
+    graphics.prepareScene(menu);
+    graphics.presentScene();
     drawButtons();
 }
 
@@ -46,6 +48,7 @@ void Menu::drawButtons() {
     SDL_RenderFillRect(graphics.renderer, &playrect);
     SDL_RenderFillRect(graphics.renderer, &helprect);
     SDL_RenderFillRect(graphics.renderer, &setrect);
+    graphics.presentScene();
 }
 void Menu::rendermenu() {
     if (helpStarted) {
