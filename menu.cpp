@@ -1,10 +1,12 @@
 #include "menu.h"
 
 Menu::Menu(Graphics& graphics, FoxGame& game)
-    : graphics(graphics), game(game), sclickcount(0), mclickcount(0),
+    : graphics(graphics), game(game),
       gameStarted(false), helpStarted(false), settingsStarted(false),
       soundisoff(false), musicisoff(false) {
     menu = graphics.loadTexture("pics/menu.png");
+    helpbg = graphics.loadTexture("pics/helpbg.png");
+    settingsbg = graphics.loadTexture("pics/setting.png");
     soundoff = graphics.loadTexture("pics/music_off.png");
     musicoff = graphics.loadTexture("pics/sound_off.png");
     soundon = graphics.loadTexture("pics/music.png");
@@ -15,6 +17,22 @@ Menu::Menu(Graphics& graphics, FoxGame& game)
     graphics.prepareScene(menu);
     graphics.presentScene();
     drawButtons();
+}
+Menu:: ~Menu() {
+    SDL_DestroyTexture( menu );
+    menu = nullptr;
+    SDL_DestroyTexture(helpbg);
+    helpbg = nullptr;
+    SDL_DestroyTexture(settingsbg);
+    settingsbg = nullptr;
+    SDL_DestroyTexture(soundoff);
+    soundoff = nullptr;
+    SDL_DestroyTexture(musicoff);
+    musicoff = nullptr;
+    SDL_DestroyTexture(soundon);
+    soundon = nullptr;
+    SDL_DestroyTexture(musicon);
+    musicon = nullptr;
 }
 
 void Menu::handleEvents(SDL_Event& event) {
@@ -50,10 +68,10 @@ void Menu::drawButtons() {
     SDL_RenderFillRect(graphics.renderer, &setrect);
     graphics.presentScene();
 }
-void Menu::rendermenu() {
-    if (helpStarted) {
-        game.showHelp();
-        SDL_Rect prevrect;
+void Menu::showHelp() {
+    graphics.prepareScene(helpbg);
+    graphics.presentScene();
+    SDL_Rect prevrect;
         prevrect.x=0;
         prevrect.y=0;
         prevrect.w=70;
@@ -65,14 +83,15 @@ void Menu::rendermenu() {
              if (ev.type == SDL_MOUSEBUTTONDOWN) {
                 if (x >= prevrect.x && x <= prevrect.x + prevrect.w &&
                     y >= prevrect.y && y <= prevrect.y + prevrect.h) {
-                    game.returnToMenu(graphics, playrect, helprect, setrect);
+                    returnToMenu(graphics, playrect, helprect, setrect);
                     helpStarted = false;
                 }
             }
-    }
-    if (settingsStarted) {
-        game.showSettings();
-        SDL_Rect prevrect;
+}
+void Menu::showSettings() {
+    graphics.prepareScene(settingsbg);
+    graphics.presentScene();
+    SDL_Rect prevrect;
         prevrect.x=0;
         prevrect.y=0;
         prevrect.w=70;
@@ -96,32 +115,49 @@ void Menu::rendermenu() {
             if (eve.type == SDL_MOUSEBUTTONDOWN) {
                 if (x >= prevrect.x && x <= prevrect.x + prevrect.w &&
                     y >= prevrect.y && y <= prevrect.y + prevrect.h) {
-                    game.returnToMenu(graphics, playrect, helprect, setrect);
+                    returnToMenu(graphics, playrect, helprect, setrect);
                     settingsStarted = false;
                 }
             if (x >= soundrect.x && x <= soundrect.x + soundrect.w &&
                 y >= soundrect.y && y <= soundrect.y + soundrect.h) {
-                sclickcount++;
-                soundisoff = sclickcount % 2 != 0 && sclickcount!=0;
+                soundisoff = !soundisoff;
             }
             if (x >= musicrect.x && x <= musicrect.x + musicrect.w &&
                 y >= musicrect.y && y <= musicrect.y + musicrect.h) {
-                mclickcount++;
-                musicisoff = mclickcount % 2 != 0 && mclickcount!=0;
+                musicisoff = !musicisoff;
             }
         }
     }
     if (soundisoff) {
         graphics.renderTexture(soundoff, 150, 150);
+        cerr<<"off"<<endl;
     } else {
         graphics.renderTexture(soundon, 150, 150);
+        cerr<<"on"<<endl;
     }
     if (musicisoff) {
         graphics.renderTexture(musicoff, 250, 150);
+        cerr<<"off"<<endl;
     } else {
         graphics.renderTexture(musicon, 250, 150);
+        cerr<<"on"<<endl;
     }
         graphics.presentScene();
+}
+void Menu::returnToMenu(Graphics& graphics, SDL_Rect& playrect, SDL_Rect& helprect, SDL_Rect& setrect) {
+    cerr << "Returning to menu!" << endl;
+    graphics.prepareScene(menu);
+    SDL_RenderFillRect(graphics.renderer, &playrect);
+    SDL_RenderFillRect(graphics.renderer, &helprect);
+    SDL_RenderFillRect(graphics.renderer, &setrect);
+    SDL_RenderPresent(graphics.renderer);
+}
+void Menu::rendermenu() {
+    if (helpStarted) {
+        showHelp();
+    }
+    if (settingsStarted) {
+        showSettings();
     }
     if (gameStarted) {
         game.run();

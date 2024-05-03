@@ -22,7 +22,7 @@
 
 1713697143 d:\ltnc\demosdl\frames.h
 
-1714758032 d:\ltnc\demosdl\game.h
+1714768161 d:\ltnc\demosdl\game.h
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_image.h>
@@ -30,7 +30,7 @@
 	<SDL_mixer.h>
 	"graphics.h"
 
-1714410042 d:\ltnc\demosdl\menu.h
+1714769692 d:\ltnc\demosdl\menu.h
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -38,11 +38,11 @@
 	<SDL_mixer.h>
 	"game.h"
 
-1714552878 source:d:\ltnc\demosdl\menu.cpp
+1714761739 source:d:\ltnc\demosdl\menu.cpp
 	"menu.h"
 
 1714245423 d:\ltnc\demosdl\headers\def.h
 
-1714759168 source:d:\ltnc\demosdl\game.cpp
+1714769789 source:d:\ltnc\demosdl\game.cpp
 	"game.h"
 

@@ -10,9 +10,13 @@ using namespace std;
 class Menu {
 public:
     Menu(Graphics& graphics, FoxGame& game);
+    ~Menu();
     void handleEvents(SDL_Event& event);
     void rendermenu();
     void drawButtons();
+    void showHelp();
+    void showSettings();
+    void returnToMenu(Graphics& graphics, SDL_Rect& playrect, SDL_Rect& helprect, SDL_Rect& setrect);
 private:
     Graphics& graphics;
     FoxGame& game;
@@ -21,11 +25,12 @@ private:
     SDL_Texture* musicoff;
     SDL_Texture* soundon;
     SDL_Texture* musicon;
+    SDL_Texture* helpbg;
+    SDL_Texture* settingsbg;
     SDL_Rect playrect;
     SDL_Rect helprect;
     SDL_Rect setrect;
     int x, y;
-    int sclickcount, mclickcount;
     bool gameStarted;
     bool helpStarted;
     bool settingsStarted;

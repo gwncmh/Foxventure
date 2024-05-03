@@ -19,8 +19,7 @@ private:
     SDL_Texture* foxhit;
     SDL_Texture* foxdeath;
     SDL_Texture* foxjump;
-    SDL_Texture* helpbg;
-    SDL_Texture* settingsbg;
+
     SDL_Texture* menu;
     Graphics& graphics;
     int status;
@@ -31,9 +30,6 @@ private:
 public:
     FoxGame(Graphics& graphics);
     ~FoxGame();
-    void showHelp();
-    void showSettings();
-    void returnToMenu(Graphics& graphics, SDL_Rect& playrect, SDL_Rect& helprect, SDL_Rect& setrect);
     void run();
     void foxJump();
 };
