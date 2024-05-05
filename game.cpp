@@ -53,9 +53,7 @@ void FoxGame::run() {
             if( e.type == SDL_KEYDOWN ) {
                 switch(e.key.keysym.sym) {
                     case SDLK_UP:
-                        if (status != JUMP && status != FALL) {
-                            status = JUMP;
-                        }
+                        isJumping=true;
                         break;
                     default:
                         break;
@@ -74,20 +72,7 @@ void FoxGame::run() {
         fhit.tick();
         fdeath.tick();
         fjump.tick();
-
-        // Jump and Fall logic
-        if (status == JUMP && FOXPOSY >= MAX_HEIGHT) {
-            FOXPOSY += -JUMP_SPEED;
-        }
-        if (FOXPOSY <= MAX_HEIGHT) {
-            status = FALL;
-        }
-        if (status == FALL && FOXPOSY < GROUNDFY) {
-            FOXPOSY += FALL_SPEED;
-            isJumping=false;
-        }
-
-        if (status == JUMP || status == FALL) {
+        if (isJumping) {
             graphics.renders(GROUNDFX, GROUNDFY-135, fjump);
         } else {
             graphics.renders(GROUNDFX, GROUNDFY, fwalk);
