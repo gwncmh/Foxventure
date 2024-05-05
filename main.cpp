@@ -8,11 +8,6 @@
 #include "game.h"
 #include "menu.h"
 using namespace std;
-void flushEventQueue() {
-    SDL_Event e;
-    SDL_PumpEvents();
-    while (SDL_PeepEvents(&e, 1, SDL_GETEVENT, SDL_FIRSTEVENT, SDL_LASTEVENT) > 0) {}
-}
 void waitUntilKeyPressed()
 {
     SDL_Event e;
@@ -32,12 +27,11 @@ int main(int argc, char *argv[]){
 
     while (true) {
         while (SDL_PollEvent(&event)) {
-            menu.handleEvents(event);
+            menu.menuevents(event);
         }
         menu.rendermenu();
-        SDL_Delay(10);
     }
-    flushEventQueue();
+    graphics.flushEventQueue();
     graphics.quit();
     return 0;
 }

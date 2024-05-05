@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1714408814 source:d:\ltnc\demosdl\main.cpp
+1714908433 source:d:\ltnc\demosdl\main.cpp
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_image.h>
@@ -10,9 +10,9 @@
 	"game.h"
 	"menu.h"
 
-1714889748 d:\ltnc\demosdl\def.h
+1714907842 d:\ltnc\demosdl\def.h
 
-1714410251 d:\ltnc\demosdl\graphics.h
+1714908422 d:\ltnc\demosdl\graphics.h
 	<bits/stdc++.h>
 	"def.h"
 	<SDL.h>
@@ -30,7 +30,7 @@
 	<SDL_mixer.h>
 	"graphics.h"
 
-1714769692 d:\ltnc\demosdl\menu.h
+1714906968 d:\ltnc\demosdl\menu.h
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -38,11 +38,11 @@
 	<SDL_mixer.h>
 	"game.h"
 
-1714769809 source:d:\ltnc\demosdl\menu.cpp
+1714908422 source:d:\ltnc\demosdl\menu.cpp
 	"menu.h"
 
 1714245423 d:\ltnc\demosdl\headers\def.h
 
-1714770376 source:d:\ltnc\demosdl\game.cpp
+1714907858 source:d:\ltnc\demosdl\game.cpp
 	"game.h"
 

@@ -16,7 +16,12 @@ Menu::Menu(Graphics& graphics, FoxGame& game)
     setrect = {PLAY_X+135, PLAY_Y+98, 60, 60};
     graphics.prepareScene(menu);
     graphics.presentScene();
-    drawButtons();
+    SDL_SetRenderDrawBlendMode(graphics.renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(graphics.renderer, 255, 255, 255, 255);
+    SDL_RenderFillRect(graphics.renderer, &playrect);
+    SDL_RenderFillRect(graphics.renderer, &helprect);
+    SDL_RenderFillRect(graphics.renderer, &setrect);
+    graphics.presentScene();
 }
 Menu:: ~Menu() {
     SDL_DestroyTexture( menu );
@@ -35,7 +40,7 @@ Menu:: ~Menu() {
     musicon = nullptr;
 }
 
-void Menu::handleEvents(SDL_Event& event) {
+void Menu::menuevents(SDL_Event& event) {
     SDL_GetMouseState(&x, &y);
     switch (event.type) {
         case SDL_QUIT:
@@ -60,89 +65,13 @@ void Menu::handleEvents(SDL_Event& event) {
                 break;
     }
 }
-void Menu::drawButtons() {
-    SDL_SetRenderDrawBlendMode(graphics.renderer, SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(graphics.renderer, 255, 255, 255, 255);
-    SDL_RenderFillRect(graphics.renderer, &playrect);
-    SDL_RenderFillRect(graphics.renderer, &helprect);
-    SDL_RenderFillRect(graphics.renderer, &setrect);
-    graphics.presentScene();
-}
 void Menu::showHelp() {
     graphics.prepareScene(helpbg);
     graphics.presentScene();
-    SDL_Rect prevrect;
-        prevrect.x=0;
-        prevrect.y=0;
-        prevrect.w=70;
-        prevrect.h=70;
-        SDL_RenderFillRect(graphics.renderer, &prevrect);
-        SDL_RenderPresent(graphics.renderer);
-        SDL_Event ev;
-        SDL_PollEvent(&ev);
-             if (ev.type == SDL_MOUSEBUTTONDOWN) {
-                if (x >= prevrect.x && x <= prevrect.x + prevrect.w &&
-                    y >= prevrect.y && y <= prevrect.y + prevrect.h) {
-                    returnToMenu(graphics, playrect, helprect, setrect);
-                    helpStarted = false;
-                }
-            }
 }
 void Menu::showSettings() {
     graphics.prepareScene(settingsbg);
     graphics.presentScene();
-    SDL_Rect prevrect;
-        prevrect.x=0;
-        prevrect.y=0;
-        prevrect.w=70;
-        prevrect.h=70;
-        SDL_Rect soundrect;
-        soundrect.x=200;
-        soundrect.y=200;
-        soundrect.w=100;
-        soundrect.h=100;
-        SDL_Rect musicrect;
-        musicrect.x=100;
-        musicrect.y=100;
-        musicrect.w=100;
-        musicrect.h=100;
-        SDL_RenderFillRect(graphics.renderer, &prevrect);
-        SDL_RenderFillRect(graphics.renderer, &soundrect);
-        SDL_RenderFillRect(graphics.renderer, &musicrect);
-        SDL_RenderPresent(graphics.renderer);
-        SDL_Event eve;
-        while (SDL_PollEvent(&eve)) {
-            if (eve.type == SDL_MOUSEBUTTONDOWN) {
-                if (x >= prevrect.x && x <= prevrect.x + prevrect.w &&
-                    y >= prevrect.y && y <= prevrect.y + prevrect.h) {
-                    returnToMenu(graphics, playrect, helprect, setrect);
-                    settingsStarted = false;
-                }
-            if (x >= soundrect.x && x <= soundrect.x + soundrect.w &&
-                y >= soundrect.y && y <= soundrect.y + soundrect.h) {
-                soundisoff = !soundisoff;
-            }
-            if (x >= musicrect.x && x <= musicrect.x + musicrect.w &&
-                y >= musicrect.y && y <= musicrect.y + musicrect.h) {
-                musicisoff = !musicisoff;
-            }
-        }
-    }
-    if (soundisoff) {
-        graphics.renderTexture(soundoff, 150, 150);
-        cerr<<"off"<<endl;
-    } else {
-        graphics.renderTexture(soundon, 150, 150);
-        cerr<<"on"<<endl;
-    }
-    if (musicisoff) {
-        graphics.renderTexture(musicoff, 250, 150);
-        cerr<<"off"<<endl;
-    } else {
-        graphics.renderTexture(musicon, 250, 150);
-        cerr<<"on"<<endl;
-    }
-        graphics.presentScene();
 }
 void Menu::returnToMenu(Graphics& graphics, SDL_Rect& playrect, SDL_Rect& helprect, SDL_Rect& setrect) {
     cerr << "Returning to menu!" << endl;
@@ -150,14 +79,54 @@ void Menu::returnToMenu(Graphics& graphics, SDL_Rect& playrect, SDL_Rect& helpre
     SDL_RenderFillRect(graphics.renderer, &playrect);
     SDL_RenderFillRect(graphics.renderer, &helprect);
     SDL_RenderFillRect(graphics.renderer, &setrect);
-    SDL_RenderPresent(graphics.renderer);
+    graphics.presentScene();
 }
 void Menu::rendermenu() {
     if (helpStarted) {
         showHelp();
+        SDL_Event ev;
+        while (SDL_PollEvent(&ev)) {
+             if (ev.type == SDL_MOUSEBUTTONDOWN) {
+                if (x >= 0 && x <= 70 && y >= 0 && y <= 70) {
+                    returnToMenu(graphics, playrect, helprect, setrect);
+                    helpStarted = false;
+                }
+            }
+        }
+        graphics.presentScene();
     }
     if (settingsStarted) {
         showSettings();
+        SDL_Event eve;
+        while (SDL_PollEvent(&eve)) {
+            if (eve.type == SDL_MOUSEBUTTONDOWN) {
+                if (x >= 0 && x <= 70 && y >= 0 && y <= 70) {
+                    returnToMenu(graphics, playrect, helprect, setrect);
+                    settingsStarted = false;
+                }
+            if (x >= 200 && x <= 300 && y >= 200 && y <= 300) {
+                soundisoff = !soundisoff;
+            }
+            if (x >= 100 && x <= 200 && y >= 100 && y <= 200) {
+                musicisoff = !musicisoff;
+            }
+        }
+    }
+    if (soundisoff) {
+        graphics.renderTexture(soundoff, 150, 150);
+        cerr<<"soff"<<endl;
+    } else {
+        graphics.renderTexture(soundon, 150, 150);
+        cerr<<"son"<<endl;
+    }
+    if (musicisoff) {
+        graphics.renderTexture(musicoff, 250, 150);
+        cerr<<"moff"<<endl;
+    } else {
+        graphics.renderTexture(musicon, 250, 150);
+        cerr<<"mon"<<endl;
+    }
+    graphics.presentScene();
     }
     if (gameStarted) {
         game.run();

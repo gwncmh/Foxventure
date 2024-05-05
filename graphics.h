@@ -209,5 +209,10 @@ struct Graphics {
         SDL_FreeSurface( textSurface );
         return texture;
     }
+    void flushEventQueue() {
+    SDL_Event e;
+    SDL_PumpEvents();
+    while (SDL_PeepEvents(&e, 1, SDL_GETEVENT, SDL_FIRSTEVENT, SDL_LASTEVENT) > 0) {}
+}
 };
 #endif // GRAPHICS_H_INCLUDED

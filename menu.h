@@ -11,9 +11,8 @@ class Menu {
 public:
     Menu(Graphics& graphics, FoxGame& game);
     ~Menu();
-    void handleEvents(SDL_Event& event);
+    void menuevents(SDL_Event& event);
     void rendermenu();
-    void drawButtons();
     void showHelp();
     void showSettings();
     void returnToMenu(Graphics& graphics, SDL_Rect& playrect, SDL_Rect& helprect, SDL_Rect& setrect);
@@ -30,6 +29,9 @@ private:
     SDL_Rect playrect;
     SDL_Rect helprect;
     SDL_Rect setrect;
+    SDL_Rect prevrect;
+    SDL_Rect soundrect;
+    SDL_Rect musicrect;
     int x, y;
     bool gameStarted;
     bool helpStarted;

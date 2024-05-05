@@ -78,7 +78,6 @@ void FoxGame::run() {
             graphics.renders(GROUNDFX, GROUNDFY, fwalk);
         }
         graphics.presentScene();
-        SDL_Delay(135);
     }
 };
 
