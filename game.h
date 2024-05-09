@@ -6,32 +6,26 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
-#include "graphics.h"
+#include "fox.h"
 using namespace std;
 
-class FoxGame {
+class Game {
 private:
-    Sprite fwalk,fattack,fhit,fdeath,fjump;
     ScrollingBackground sback,sback1,sback2;
     SDL_Texture* background;
-    SDL_Texture* foxwalk;
-    SDL_Texture* foxattack;
-    SDL_Texture* foxhit;
-    SDL_Texture* foxdeath;
-    SDL_Texture* foxjump;
-
     SDL_Texture* menu;
     Graphics& graphics;
-    int status;
-    int FOXPOSY;
-    bool isJumping;
+    Fox& fox;
     bool quit;
 
 public:
-    FoxGame(Graphics& graphics);
-    ~FoxGame();
+    Game(Graphics& graphics, Fox& fox);
+    ~Game();
     void run();
-    void foxJump();
+    void handleEvents();
+    void update();
+    void render();
 };
 
 #endif // GAME_H_INCLUDED
+

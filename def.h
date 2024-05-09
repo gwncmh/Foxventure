@@ -45,9 +45,6 @@ const int JUMP_CLIPS[][4] = {
     { 800, 0, 160, 230}};
 const int JUMP_FRAMES = sizeof(JUMP_CLIPS)/sizeof(int)/4;
 
-const int TITLEPOSX = 148;
-const int TITLEPOSY = 104;
-
 const int PLAY_X = SCRW/2-68;
 const int PLAY_Y = SCRH/2-50;
 const int BACK_X = 0;
@@ -69,14 +66,10 @@ const int CONTINUE_Y = 29;
 
 const int GROUNDFX = 100;
 const int GROUNDFY = 320;
-const int GROUNDSPEED = 4;
-const int FOXSPEED = 70;
-const int JUMP_SPEED = 2;
-const int MAX_HEIGHT = 20;
-const int FALL_SPEED = 2;
-const int JUMP = 1;
-const int FALL = 2;
-const int RUN = 0;
+const int GROUNDSPEED = 1;
+const int JUMP_SPEED = 6;
+const int MAX_HEIGHT = 200;
+const int FALL_SPEED = 8;
 /*
 const int SCREEN_BPP = 64;
 const double SCREEN_SPEED = 4;

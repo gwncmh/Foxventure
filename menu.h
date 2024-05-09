@@ -9,7 +9,7 @@
 using namespace std;
 class Menu {
 public:
-    Menu(Graphics& graphics, FoxGame& game);
+    Menu(Graphics& graphics, Game& game);
     ~Menu();
     void menuevents(SDL_Event& event);
     void rendermenu();
@@ -18,7 +18,7 @@ public:
     void returnToMenu(Graphics& graphics, SDL_Rect& playrect, SDL_Rect& helprect, SDL_Rect& setrect);
 private:
     Graphics& graphics;
-    FoxGame& game;
+    Game& game;
     SDL_Texture* menu;
     SDL_Texture* soundoff;
     SDL_Texture* musicoff;

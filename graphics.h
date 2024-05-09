@@ -13,7 +13,8 @@ struct Sprite {
     SDL_Texture* texture;
     vector<SDL_Rect> clips;
     int currentFrame = 0;
-
+    int delaycount=0;
+    int delaylimit=8;
     void init(SDL_Texture* _texture, int frames, const int _clips [][4]) {
         texture = _texture;
         SDL_Rect clip;
@@ -26,11 +27,18 @@ struct Sprite {
         }
     }
     void tick() {
+        delaycount++;
+        if (delaycount>=delaylimit) {
         currentFrame = (currentFrame + 1) % clips.size();
+        delaycount=0;
+        }
     }
 
     const SDL_Rect* getCurrentClip() const {
         return &(clips[currentFrame]);
+    }
+    bool isLastFrame() const {
+        return currentFrame == clips.size() - 1;
     }
 };
 

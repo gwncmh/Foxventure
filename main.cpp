@@ -7,6 +7,7 @@
 #include "graphics.h"
 #include "game.h"
 #include "menu.h"
+#include "fox.h"
 using namespace std;
 void waitUntilKeyPressed()
 {
@@ -21,7 +22,8 @@ void waitUntilKeyPressed()
 int main(int argc, char *argv[]){
     Graphics graphics;
     graphics.init();
-    FoxGame game(graphics);
+    Fox fox(graphics);
+    Game game(graphics, fox);
     Menu menu(graphics, game);
     SDL_Event event;
 
