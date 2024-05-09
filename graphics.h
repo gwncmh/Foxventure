@@ -129,7 +129,7 @@ struct Graphics {
         SDL_RenderCopy(renderer, texture, NULL, &dest);
     }
 
-    void blitRect(SDL_Texture *texture, SDL_Rect *src, int x, int y)
+    void blitRect(SDL_Texture *texture, const SDL_Rect *src, int x, int y)
     {
         SDL_Rect dest;
 
@@ -169,6 +169,10 @@ struct Graphics {
         }
         return gMusic;
     }
+    void playBGM() {
+    Mix_Music *BGM=loadMusic("sounds/magnetic.mp3");
+    play1(BGM);
+    }
     void play1(Mix_Music *gMusic)
     {
         if (gMusic == nullptr) return;
@@ -180,7 +184,6 @@ struct Graphics {
             Mix_ResumeMusic();
         }
     }
-
     Mix_Chunk* loadSound(const char* path) {
         Mix_Chunk* gChunk = Mix_LoadWAV(path);
         if (gChunk == nullptr) {

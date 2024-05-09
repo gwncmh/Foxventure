@@ -12,7 +12,8 @@ public:
     Menu(Graphics& graphics, Game& game);
     ~Menu();
     void menuevents(SDL_Event& event);
-    void rendermenu();
+    void rendermenu(SDL_Event& event);
+    void userevents(SDL_Event& event);
     void showHelp();
     void showSettings();
     void returnToMenu(Graphics& graphics, SDL_Rect& playrect, SDL_Rect& helprect, SDL_Rect& setrect);

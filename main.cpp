@@ -8,6 +8,7 @@
 #include "game.h"
 #include "menu.h"
 #include "fox.h"
+#include "enemy.h"
 using namespace std;
 void waitUntilKeyPressed()
 {
@@ -23,16 +24,27 @@ int main(int argc, char *argv[]){
     Graphics graphics;
     graphics.init();
     Fox fox(graphics);
+    Enemy enemy(graphics);
     Game game(graphics, fox);
     Menu menu(graphics, game);
-    SDL_Event event;
-
     while (true) {
-        while (SDL_PollEvent(&event)) {
-            menu.menuevents(event);
+    graphics.playBGM();
+    SDL_Event event;
+    while (SDL_PollEvent(&event)) {
+        switch (event.type) {
+            case SDL_QUIT:
+                exit(0);
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+                menu.menuevents(event);
+                break;
+            case SDL_USEREVENT:
+                menu.userevents(event);
+                break;
         }
-        menu.rendermenu();
+        menu.rendermenu(event);
     }
+}
     graphics.flushEventQueue();
     graphics.quit();
     return 0;

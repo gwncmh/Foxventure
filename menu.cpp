@@ -48,6 +48,8 @@ void Menu::menuevents(SDL_Event& event) {
             break;
 
         case SDL_MOUSEBUTTONDOWN:
+            x = event.button.x;
+            y = event.button.y;
             if (x >= helprect.x && x <= helprect.x + helprect.w &&
                 y >= helprect.y && y <= helprect.y + helprect.h) {
                 SDL_Event helpEvent;
@@ -90,66 +92,63 @@ void Menu::returnToMenu(Graphics& graphics, SDL_Rect& playrect, SDL_Rect& helpre
     SDL_RenderFillRect(graphics.renderer, &setrect);
     graphics.presentScene();
 }
-void Menu::rendermenu() {
-    SDL_Event eve;
-    while (SDL_PollEvent(&eve)) {
-            switch (eve.type) {
-            case SDL_USEREVENT:
-                if (eve.user.code == 1) {
-                    helpStarted = true;
-                    cerr << "Help enabled!" << endl;
-                } else if (eve.user.code == 2) {
-                    gameStarted = true;
-                    cerr << "Game started!" << endl;
-                } else if (eve.user.code == 3) {
-                    settingsStarted = true;
-                    cerr << "Settings enabled!" << endl;
-                }
-                break;
+void Menu::userevents(SDL_Event& event) {
+    if (event.user.code == 1) {
+        helpStarted = true;
+        cerr << "Help enabled!" << endl;
+    } else if (event.user.code == 2) {
+        gameStarted = true;
+        cerr << "Game started!" << endl;
+    } else if (event.user.code == 3) {
+        settingsStarted = true;
+        cerr << "Settings enabled!" << endl;
+    }
         }
-        if (helpStarted) {
-            showHelp();
-            if (eve.type == SDL_MOUSEBUTTONDOWN) {
-                if (x >= 0 && x <= 70 && y >= 0 && y <= 70) {
-                    returnToMenu(graphics, playrect, helprect, setrect);
-                    helpStarted = false;
-                }
+void Menu::rendermenu(SDL_Event& event) {
+   SDL_GetMouseState(&x, &y);
+    if (helpStarted) {
+        showHelp();
+        if (event.type == SDL_MOUSEBUTTONDOWN && x >= 0 && x <= 70 && y >= 0 && y <= 70) {
+                returnToMenu(graphics, playrect, helprect, setrect);
+                helpStarted = false;
             }
-            graphics.presentScene();
+        graphics.presentScene();
+    }
+
+    if (settingsStarted) {
+        showSettings();
+        if (event.type == SDL_MOUSEBUTTONDOWN) {
+            if (x >= 0 && x <= 70 && y >= 0 && y <= 70) {
+                returnToMenu(graphics, playrect, helprect, setrect);
+                settingsStarted = false;
+                return;
+            }
+            if (x >= 200 && x <= 300 && y >= 200 && y <= 300) {
+                soundisoff = !soundisoff;
+            }
+            if (x >= 100 && x <= 200 && y >= 100 && y <= 200) {
+                musicisoff = !musicisoff;
+            }
         }
-        if (settingsStarted) {
-            showSettings();
-            if (eve.type == SDL_MOUSEBUTTONDOWN) {
-                if (x >= 0 && x <= 70 && y >= 0 && y <= 70) {
-                    returnToMenu(graphics, playrect, helprect, setrect);
-                    settingsStarted = false;
-                }
-                if (x >= 200 && x <= 300 && y >= 200 && y <= 300) {
-                    soundisoff = !soundisoff;
-                }
-                if (x >= 100 && x <= 200 && y >= 100 && y <= 200) {
-                    musicisoff = !musicisoff;
-                }
-            }
-            if (soundisoff) {
-                graphics.renderTexture(soundoff, 150, 150);
-                cerr<<"soff"<<endl;
-            } else {
-                graphics.renderTexture(soundon, 150, 150);
-                cerr<<"son"<<endl;
-            }
-            if (musicisoff) {
-                graphics.renderTexture(musicoff, 250, 150);
-                cerr<<"moff"<<endl;
-            } else {
-                graphics.renderTexture(musicon, 250, 150);
-                cerr<<"mon"<<endl;
-            }
-            graphics.presentScene();
+        if (soundisoff) {
+            graphics.renderTexture(soundoff, 150, 150);
+            cerr << "soff" << endl;
+        } else {
+            graphics.renderTexture(soundon, 150, 150);
+            cerr << "son" << endl;
         }
-        if (gameStarted) {
-            game.run();
+        if (musicisoff) {
+            graphics.renderTexture(musicoff, 250, 150);
+            cerr << "moff" << endl;
+        } else {
+            graphics.renderTexture(musicon, 250, 150);
+            cerr << "mon" << endl;
         }
+        graphics.presentScene();
+    }
+
+    if (gameStarted) {
+        game.run();
     }
 }
 

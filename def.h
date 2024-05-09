@@ -10,6 +10,12 @@ const int WALK_CLIPS[][4] = {
     { 320, 0, 160, 128},
     { 480, 0, 160, 128}};
 const int WALK_FRAMES = sizeof(WALK_CLIPS)/sizeof(int)/4;
+const int EWALK_CLIPS[][4] = {
+    {   0, 0, 160, 128},
+    { 160, 0, 160, 128},
+    { 320, 0, 160, 128},
+    { 480, 0, 160, 128}};
+const int EWALK_FRAMES = sizeof(EWALK_CLIPS)/sizeof(int)/4;
 const int HIT_CLIPS[][4] = {
     {   0, 0, 160, 128},
     { 160, 0, 160, 128},
@@ -22,7 +28,11 @@ const int DEAD_CLIPS[][4] = {
     { 160, 0, 160, 128},
     { 320, 0, 160, 128}};
 const int DEAD_FRAMES = sizeof(DEAD_CLIPS)/sizeof(int)/4;
-
+const int EDEAD_CLIPS[][4] = {
+    {   0, 0, 160, 128},
+    { 160, 0, 160, 128},
+    { 320, 0, 160, 128}};
+const int EDEAD_FRAMES = sizeof(EDEAD_CLIPS)/sizeof(int)/4;
 const int ATTACK_CLIPS[][4] = {
     {   0, 0, 160, 128},
     { 160, 0, 160, 128},
@@ -35,15 +45,18 @@ const int ATTACK_CLIPS[][4] = {
     {1280, 0, 160, 128},
     {1440, 0, 160, 128}};
 const int ATTACK_FRAMES = sizeof(ATTACK_CLIPS)/sizeof(int)/4;
-
-const int JUMP_CLIPS[][4] = {
-    {   0, 0, 160, 230},
-    { 160, 0, 160, 230},
-    { 320, 0, 160, 230},
-    { 480, 0, 160, 230},
-    { 640, 0, 160, 230},
-    { 800, 0, 160, 230}};
-const int JUMP_FRAMES = sizeof(JUMP_CLIPS)/sizeof(int)/4;
+const int EATTACK_CLIPS[][4] = {
+    {   0, 0, 160, 128},
+    { 160, 0, 160, 128},
+    { 320, 0, 160, 128},
+    { 480, 0, 160, 128},
+    { 640, 0, 160, 128},
+    { 800, 0, 160, 128},
+    { 960, 0, 160, 128},
+    {1120, 0, 160, 128},
+    {1280, 0, 160, 128},
+    {1440, 0, 160, 128}};
+const int EATTACK_FRAMES = sizeof(EATTACK_CLIPS)/sizeof(int)/4;
 
 const int PLAY_X = SCRW/2-68;
 const int PLAY_Y = SCRH/2-50;
