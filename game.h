@@ -6,7 +6,9 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
+#include <cstdlib>
 #include "fox.h"
+#include "enemy.h"
 using namespace std;
 
 class Game {
@@ -14,17 +16,28 @@ private:
     ScrollingBackground sback,sback1,sback2;
     SDL_Texture* background;
     SDL_Texture* menu;
+    TTF_Font* lose;
+    SDL_Texture* losetext;
+    SDL_Texture* losetext1;
     Graphics& graphics;
     Fox& fox;
+    Enemy& enemy;
+    int timebetween = 0;
+    vector<Enemy> enemies;
+    int timer = 0;
+    int maxdelay = 0;
     bool quit;
+    bool gameover;
+
 
 public:
-    Game(Graphics& graphics, Fox& fox);
+    Game(Graphics& graphics, Fox& fox, Enemy& enemy);
     ~Game();
     void run();
     void handleEvents();
     void update();
     void render();
+    bool checkCollision(Fox fox, Enemy enemy);
 };
 
 #endif // GAME_H_INCLUDED

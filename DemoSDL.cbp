@@ -36,9 +36,7 @@
 		<Unit filename="enemy.cpp" />
 		<Unit filename="enemy.h" />
 		<Unit filename="fox.cpp" />
-		<Unit filename="fox.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
+		<Unit filename="fox.h" />
 		<Unit filename="game.cpp" />
 		<Unit filename="game.h">
 			<Option target="&lt;{~None~}&gt;" />

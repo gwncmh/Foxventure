@@ -149,7 +149,6 @@ struct Graphics {
         SDL_Rect renderQuad = {x, y, clip->w, clip->h};
         SDL_RenderCopy(renderer, sprite.texture, clip, &renderQuad);
     }
-
     void quit()
     {
         TTF_Quit();
@@ -170,7 +169,7 @@ struct Graphics {
         return gMusic;
     }
     void playBGM() {
-    Mix_Music *BGM=loadMusic("sounds/magnetic.mp3");
+    Mix_Music *BGM=loadMusic("sounds/bgm.mp3");
     play1(BGM);
     }
     void play1(Mix_Music *gMusic)
@@ -190,6 +189,7 @@ struct Graphics {
             SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR,
                        "Could not load sound! SDL_mixer Error: %s", Mix_GetError());
         }
+        return gChunk;
     }
     void play2(Mix_Chunk* gChunk) {
         if (gChunk != nullptr) {
@@ -202,6 +202,7 @@ struct Graphics {
         if (gFont == nullptr) {
             SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Load font %s", TTF_GetError());
         }
+        return gFont;
     }
 
     SDL_Texture* renderText(const char* text, TTF_Font* font, SDL_Color textColor)

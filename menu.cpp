@@ -17,7 +17,7 @@ Menu::Menu(Graphics& graphics, Game& game)
     graphics.prepareScene(menu);
     graphics.presentScene();
     SDL_SetRenderDrawBlendMode(graphics.renderer, SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(graphics.renderer, 255, 255, 255, 255);
+    SDL_SetRenderDrawColor(graphics.renderer, 255, 255, 255, 0);
     SDL_RenderFillRect(graphics.renderer, &playrect);
     SDL_RenderFillRect(graphics.renderer, &helprect);
     SDL_RenderFillRect(graphics.renderer, &setrect);
@@ -78,11 +78,9 @@ void Menu::menuevents(SDL_Event& event) {
 }
 void Menu::showHelp() {
     graphics.prepareScene(helpbg);
-    graphics.presentScene();
 }
 void Menu::showSettings() {
     graphics.prepareScene(settingsbg);
-    graphics.presentScene();
 }
 void Menu::returnToMenu(Graphics& graphics, SDL_Rect& playrect, SDL_Rect& helprect, SDL_Rect& setrect) {
     cerr << "Returning to menu!" << endl;
@@ -106,6 +104,7 @@ void Menu::userevents(SDL_Event& event) {
         }
 void Menu::rendermenu(SDL_Event& event) {
    SDL_GetMouseState(&x, &y);
+
     if (helpStarted) {
         showHelp();
         if (event.type == SDL_MOUSEBUTTONDOWN && x >= 0 && x <= 70 && y >= 0 && y <= 70) {
@@ -123,27 +122,32 @@ void Menu::rendermenu(SDL_Event& event) {
                 settingsStarted = false;
                 return;
             }
-            if (x >= 200 && x <= 300 && y >= 200 && y <= 300) {
+            if (x >= SOUND_X && x <= SOUND_X+110 && y >= SOUND_Y && y <= SOUND_Y+110) {
                 soundisoff = !soundisoff;
             }
-            if (x >= 100 && x <= 200 && y >= 100 && y <= 200) {
+            if (x >= MUSIC_X && x <= MUSIC_X+110 && y >= MUSIC_Y && y <= MUSIC_Y+110) {
                 musicisoff = !musicisoff;
             }
         }
-        if (soundisoff) {
-            graphics.renderTexture(soundoff, 150, 150);
-            cerr << "soff" << endl;
-        } else {
-            graphics.renderTexture(soundon, 150, 150);
-            cerr << "son" << endl;
-        }
-        if (musicisoff) {
-            graphics.renderTexture(musicoff, 250, 150);
-            cerr << "moff" << endl;
-        } else {
-            graphics.renderTexture(musicon, 250, 150);
-            cerr << "mon" << endl;
-        }
+            if (soundisoff) {
+                graphics.renderTexture(soundoff, SOUND_X, SOUND_Y);
+                Mix_Pause(-1);
+                cerr << "soff" << endl;
+            } else {
+                graphics.renderTexture(soundon, SOUND_X, SOUND_Y);
+                Mix_Resume(-1);
+                cerr << "son" << endl;
+            }
+            if (musicisoff) {
+                graphics.renderTexture(musicoff, MUSIC_X, MUSIC_Y);
+                Mix_PauseMusic();
+                cerr << "moff" << endl;
+            } else {
+                graphics.renderTexture(musicon, MUSIC_X, MUSIC_Y);
+                Mix_ResumeMusic();
+                cerr << "mon" << endl;
+            }
+
         graphics.presentScene();
     }
 

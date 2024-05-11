@@ -15,9 +15,12 @@ public:
     ~Fox();
     void jump();
     void attack();
-    void update(); // Update the fox's state
-    void render(Graphics& graphics); // Render the fox on the screen
-
+    void update();
+    void render(Graphics& graphics);
+    SDL_Rect boundary();
+    Sprite* currentSprite;
+    Sprite fdeath;
+    int FOXPOSY;
 private:
     SDL_Texture* foxwalk;
     SDL_Texture* foxattack;
@@ -25,10 +28,8 @@ private:
     SDL_Texture* foxdeath;
     Mix_Chunk* gJump;
     Mix_Chunk* gAttack;
-    Sprite fwalk,fattack,fhit,fdeath;
-    Sprite* currentSprite;
+    Sprite fwalk,fattack,fhit;
     Graphics& graphics;
-    int FOXPOSY;
     bool isJumping;
     bool isAttacking;
     bool quit;

@@ -3,6 +3,7 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
+#include <ctime>
 #include "def.h"
 #include "graphics.h"
 #include "game.h"
@@ -21,14 +22,16 @@ void waitUntilKeyPressed()
     }
 }
 int main(int argc, char *argv[]){
+    srand(time(0));
     Graphics graphics;
     graphics.init();
     Fox fox(graphics);
-    Enemy enemy(graphics);
-    Game game(graphics, fox);
+    EnemyType type = EnemyType::Centipede;
+    Enemy enemy(graphics, type);
+    Game game(graphics, fox, enemy);
     Menu menu(graphics, game);
-    while (true) {
     graphics.playBGM();
+    while (true) {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         switch (event.type) {

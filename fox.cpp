@@ -80,3 +80,6 @@ void Fox::render(Graphics& graphics)
 {   currentSprite->tick();
     graphics.renders(GROUNDFX, FOXPOSY, *currentSprite);
 }
+SDL_Rect Fox::boundary(){
+    return {GROUNDFX-14, FOXPOSY, 80, 110};
+}
