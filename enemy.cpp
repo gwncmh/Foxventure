@@ -6,12 +6,12 @@ Enemy::Enemy(Graphics& graphics, EnemyType& type) : graphics(graphics), type(typ
     enemydeath = graphics.loadTexture("pics/Centipede_death.png");
     eattack.init(enemyattack, EATTACK_FRAMES, EATTACK_CLIPS);
     edeath.init(enemydeath, EDEAD_FRAMES, EDEAD_CLIPS);
+    enemyposX=SCRW;
     } else if (type == EnemyType::Obstacle) {
     obstacles = graphics.loadTexture("pics/tileset.png");
     obs.init(obstacles, OBSTACLE_FRAMES, OBSTACLE_CLIPS);
-    }
-    enemyposX=SCRW;
     obsposX=SCRW+100;
+    }
 }
 
 Enemy::~Enemy() {

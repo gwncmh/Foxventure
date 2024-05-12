@@ -21,24 +21,23 @@ private:
     SDL_Texture* losetext1;
     Graphics& graphics;
     Fox& fox;
-    Enemy& enemy;
+    vector<Enemy> enemies;  // This vector will hold all your enemies
     int timebetween = 0;
-    vector<Enemy> enemies;
     int timer = 0;
     int maxdelay = 0;
     bool quit;
     bool gameover;
-
-
+    int score;  // Current score
+    int highScore;  // High score
 public:
-    Game(Graphics& graphics, Fox& fox, Enemy& enemy);
+    Game(Graphics& graphics, Fox& fox);  // Removed the 'Enemy& enemy' parameter
     ~Game();
     void run();
     void handleEvents();
     void update();
     void render();
     bool checkCollision(Fox fox, Enemy enemy);
+    bool isPaused = false;
 };
 
 #endif // GAME_H_INCLUDED
-

@@ -28,7 +28,7 @@ int main(int argc, char *argv[]){
     Fox fox(graphics);
     EnemyType type = EnemyType::Centipede;
     Enemy enemy(graphics, type);
-    Game game(graphics, fox, enemy);
+    Game game(graphics, fox);
     Menu menu(graphics, game);
     graphics.playBGM();
     while (true) {

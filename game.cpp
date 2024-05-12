@@ -1,6 +1,6 @@
 #include "game.h"
 
-Game::Game(Graphics& graphics, Fox& fox, Enemy& enemy) : graphics(graphics), fox(fox), enemy(enemy){
+Game::Game(Graphics& graphics, Fox& fox) : graphics(graphics), fox(fox) {
     background = graphics.loadTexture("pics/forestbg.png");
     quit = false;
     gameover = false;
@@ -17,7 +17,6 @@ Game::Game(Graphics& graphics, Fox& fox, Enemy& enemy) : graphics(graphics), fox
     losetext = graphics.renderText("YOU LOSE", lose, color);
     losetext1 = graphics.renderText("YOU LOSE", lose, color1);
 }
-
 Game::~Game() {
     SDL_DestroyTexture( background );
     SDL_DestroyTexture( sback.texture );
@@ -25,6 +24,8 @@ Game::~Game() {
     SDL_DestroyTexture( sback2.texture );
     SDL_DestroyTexture( losetext );
     losetext = NULL;
+    SDL_DestroyTexture( losetext1 );
+    losetext1 = NULL;
 }
 void Game::run() {
     SDL_Event e;
@@ -38,6 +39,7 @@ void Game::run() {
                         break;
                     case SDLK_SPACE:
                         fox.attack();
+                        break;
                     default:
                         break;
                 }
@@ -56,37 +58,30 @@ void Game::update() {
     sback.scroll(GROUNDSPEED);
     sback1.scroll(GROUNDSPEED);
     sback2.scroll(GROUNDSPEED);
-    if (timebetween >= MAX_TIME) {
+     if (timebetween >= MAX_TIME) {
         timebetween = 0;
-        enemy.enemyposX=SCRW;
-        enemy.obsposX=SCRW;
+        EnemyType type = (rand() % 2 == 0) ? EnemyType::Centipede : EnemyType::Obstacle;
+        enemies.push_back(Enemy(graphics, type));
+        // Set positions for new enemies based on type
+        if (type == EnemyType::Centipede) {
+            enemies.back().enemyposX = SCRW;
+            enemies.back().obsposX = 0; // Reset obstacle position
+        } else {
+            enemies.back().enemyposX = 0; // Reset centipede position
+            enemies.back().obsposX = SCRW;
+        }
     }
     SDL_Rect foxBox = fox.boundary();
     for (Enemy& enemy : enemies) {
-    SDL_Rect enemyBox = enemy.eboundary();
-    SDL_Rect obsBox = enemy.oboundary();
+        SDL_Rect enemyBox = enemy.eboundary();
+        SDL_Rect obsBox = enemy.oboundary();
 
-    if (SDL_HasIntersection(&foxBox, &enemyBox)||SDL_HasIntersection(&foxBox, &obsBox)) {
-        fox.currentSprite=&fox.fdeath;
-        quit=true;
-        gameover=true;
-        break;  // Exit the loop as soon as a collision is detected
-    }
-}
-
-    timer++;
-    if (timer >= maxdelay) {
-        timer = 0;
-        maxdelay = rand() % MAX_DELAY + MIN_DELAY; // Replace with your desired min and max delay
-
-        // Decide the type of enemy to spawn
-        EnemyType type;
-        if (rand() % 2 == 0) { // Randomly choose between 0 and 1
-            type = EnemyType::Centipede;
-        } else {
-            type = EnemyType::Obstacle;
+        if (SDL_HasIntersection(&foxBox, &enemyBox) || SDL_HasIntersection(&foxBox, &obsBox)) {
+            fox.currentSprite = &fox.fdeath;
+            quit = true;
+            gameover = true;
+            break;
         }
-        enemies.push_back(Enemy(graphics, type));
     }
 }
 
@@ -96,7 +91,6 @@ void Game::render() {
     graphics.render(sback1);
     graphics.render(sback2);
     fox.render(graphics);
-    enemy.render(graphics);
     for (Enemy& enemy : enemies) {
         enemy.render(graphics);
     }

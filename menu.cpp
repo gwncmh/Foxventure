@@ -11,16 +11,7 @@ Menu::Menu(Graphics& graphics, Game& game)
     musicoff = graphics.loadTexture("pics/sound_off.png");
     soundon = graphics.loadTexture("pics/music.png");
     musicon = graphics.loadTexture("pics/sound.png");
-    playrect = {PLAY_X+17, PLAY_Y+13, 100, 100};
-    helprect = {PLAY_X-63, PLAY_Y+98, 60, 60};
-    setrect = {PLAY_X+135, PLAY_Y+98, 60, 60};
     graphics.prepareScene(menu);
-    graphics.presentScene();
-    SDL_SetRenderDrawBlendMode(graphics.renderer, SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(graphics.renderer, 255, 255, 255, 0);
-    SDL_RenderFillRect(graphics.renderer, &playrect);
-    SDL_RenderFillRect(graphics.renderer, &helprect);
-    SDL_RenderFillRect(graphics.renderer, &setrect);
     graphics.presentScene();
 }
 Menu:: ~Menu() {
@@ -41,7 +32,6 @@ Menu:: ~Menu() {
 }
 void Menu::menuevents(SDL_Event& event) {
     SDL_GetMouseState(&x, &y);
-
     switch (event.type) {
         case SDL_QUIT:
             exit(0);
@@ -50,24 +40,24 @@ void Menu::menuevents(SDL_Event& event) {
         case SDL_MOUSEBUTTONDOWN:
             x = event.button.x;
             y = event.button.y;
-            if (x >= helprect.x && x <= helprect.x + helprect.w &&
-                y >= helprect.y && y <= helprect.y + helprect.h) {
+            if (!settingsStarted && x >= PLAY_X-63 && x <= PLAY_X-3 &&
+                y >= PLAY_Y+98 && y <= PLAY_Y+158) {
                 SDL_Event helpEvent;
                 helpEvent.type = SDL_USEREVENT;
                 helpEvent.user.code = 1; // Mã định danh cho sự kiện help
                 SDL_PushEvent(&helpEvent);
             }
 
-            if (x >= playrect.x && x <= playrect.x + playrect.w &&
-                y >= playrect.y && y <= playrect.y + playrect.h) {
+            if (x >= PLAY_X+17 && x <= PLAY_X+117 &&
+                y >= PLAY_Y+17 && y <= PLAY_Y+113) {
                 SDL_Event playEvent;
                 playEvent.type = SDL_USEREVENT;
                 playEvent.user.code = 2; // Mã định danh cho sự kiện play
                 SDL_PushEvent(&playEvent);
             }
 
-            if (x >= setrect.x && x <= setrect.x + setrect.w &&
-                y >= setrect.y && y <= setrect.y + setrect.h) {
+            if (!helpStarted && x >= PLAY_X+135 && x <= PLAY_X+195 &&
+                y >= PLAY_Y+98 && y <= PLAY_Y+158) {
                 SDL_Event settingsEvent;
                 settingsEvent.type = SDL_USEREVENT;
                 settingsEvent.user.code = 3; // Mã định danh cho sự kiện settings
@@ -76,18 +66,16 @@ void Menu::menuevents(SDL_Event& event) {
             break;
     }
 }
+
 void Menu::showHelp() {
     graphics.prepareScene(helpbg);
 }
 void Menu::showSettings() {
     graphics.prepareScene(settingsbg);
 }
-void Menu::returnToMenu(Graphics& graphics, SDL_Rect& playrect, SDL_Rect& helprect, SDL_Rect& setrect) {
+void Menu::returnToMenu(Graphics& graphics) {
     cerr << "Returning to menu!" << endl;
     graphics.prepareScene(menu);
-    SDL_RenderFillRect(graphics.renderer, &playrect);
-    SDL_RenderFillRect(graphics.renderer, &helprect);
-    SDL_RenderFillRect(graphics.renderer, &setrect);
     graphics.presentScene();
 }
 void Menu::userevents(SDL_Event& event) {
@@ -108,7 +96,7 @@ void Menu::rendermenu(SDL_Event& event) {
     if (helpStarted) {
         showHelp();
         if (event.type == SDL_MOUSEBUTTONDOWN && x >= 0 && x <= 70 && y >= 0 && y <= 70) {
-                returnToMenu(graphics, playrect, helprect, setrect);
+                returnToMenu(graphics);
                 helpStarted = false;
             }
         graphics.presentScene();
@@ -118,7 +106,7 @@ void Menu::rendermenu(SDL_Event& event) {
         showSettings();
         if (event.type == SDL_MOUSEBUTTONDOWN) {
             if (x >= 0 && x <= 70 && y >= 0 && y <= 70) {
-                returnToMenu(graphics, playrect, helprect, setrect);
+                returnToMenu(graphics);
                 settingsStarted = false;
                 return;
             }

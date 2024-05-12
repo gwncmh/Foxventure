@@ -77,7 +77,7 @@ const int GROUNDSPEED = 1;
 const int JUMP_SPEED = 6;
 const int MAX_HEIGHT = 200;
 const int FALL_SPEED = 8;
-const int MAX_TIME = 100;
+const int MAX_TIME = 2;
 const int MAX_DELAY = 800;
 const int MIN_DELAY = 300;
 /*

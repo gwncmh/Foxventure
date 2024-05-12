@@ -16,7 +16,7 @@ public:
     void userevents(SDL_Event& event);
     void showHelp();
     void showSettings();
-    void returnToMenu(Graphics& graphics, SDL_Rect& playrect, SDL_Rect& helprect, SDL_Rect& setrect);
+    void returnToMenu(Graphics& graphics);
 private:
     Graphics& graphics;
     Game& game;
@@ -27,12 +27,6 @@ private:
     SDL_Texture* musicon;
     SDL_Texture* helpbg;
     SDL_Texture* settingsbg;
-    SDL_Rect playrect;
-    SDL_Rect helprect;
-    SDL_Rect setrect;
-    SDL_Rect prevrect;
-    SDL_Rect soundrect;
-    SDL_Rect musicrect;
     int x, y;
     bool gameStarted;
     bool helpStarted;
