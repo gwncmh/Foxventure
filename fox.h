@@ -19,8 +19,9 @@ public:
     void render(Graphics& graphics);
     SDL_Rect boundary();
     Sprite* currentSprite;
-    Sprite fdeath;
+    Sprite fdeath,fattack;
     int FOXPOSY;
+    void reset();
 private:
     SDL_Texture* foxwalk;
     SDL_Texture* foxattack;
@@ -28,7 +29,7 @@ private:
     SDL_Texture* foxdeath;
     Mix_Chunk* gJump;
     Mix_Chunk* gAttack;
-    Sprite fwalk,fattack,fhit;
+    Sprite fwalk,fhit;
     Graphics& graphics;
     bool isJumping;
     bool isAttacking;

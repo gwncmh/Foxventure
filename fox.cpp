@@ -76,10 +76,16 @@ void Fox::attack()
         isAttacking = true;
     }
 }
+void Fox::reset() {
+    isJumping = false;
+    isAttacking = false;
+    currentSprite = &fwalk;
+    FOXPOSY = GROUNDFY;
+}
 void Fox::render(Graphics& graphics)
 {   currentSprite->tick();
     graphics.renders(GROUNDFX, FOXPOSY, *currentSprite);
 }
 SDL_Rect Fox::boundary(){
-    return {GROUNDFX-14, FOXPOSY, 80, 110};
+    return {GROUNDFX-10, FOXPOSY, 80, 110};
 }

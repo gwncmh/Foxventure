@@ -5,11 +5,12 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
-#include "game.h"
+#include "graphics.h"
 using namespace std;
+class Game;
 class Menu {
 public:
-    Menu(Graphics& graphics, Game& game);
+    Menu(Graphics& graphics, Game* game);
     ~Menu();
     void menuevents(SDL_Event& event);
     void rendermenu(SDL_Event& event);
@@ -17,9 +18,12 @@ public:
     void showHelp();
     void showSettings();
     void returnToMenu(Graphics& graphics);
+    void setGame(Game* game);
+    bool gameStarted;
+    bool musicisoff;
 private:
     Graphics& graphics;
-    Game& game;
+    Game* game;
     SDL_Texture* menu;
     SDL_Texture* soundoff;
     SDL_Texture* musicoff;
@@ -28,11 +32,9 @@ private:
     SDL_Texture* helpbg;
     SDL_Texture* settingsbg;
     int x, y;
-    bool gameStarted;
     bool helpStarted;
     bool settingsStarted;
     bool soundisoff;
-    bool musicisoff;
 };
 
 

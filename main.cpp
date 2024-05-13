@@ -3,6 +3,7 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
+#include <cstdlib>
 #include <ctime>
 #include "def.h"
 #include "graphics.h"
@@ -11,6 +12,7 @@
 #include "fox.h"
 #include "enemy.h"
 using namespace std;
+
 void waitUntilKeyPressed()
 {
     SDL_Event e;
@@ -21,37 +23,46 @@ void waitUntilKeyPressed()
         SDL_Delay(100);
     }
 }
+
 int main(int argc, char *argv[]){
     srand(time(0));
     Graphics graphics;
     graphics.init();
     Fox fox(graphics);
-    EnemyType type = EnemyType::Centipede;
-    Enemy enemy(graphics, type);
-    Game game(graphics, fox);
-    Menu menu(graphics, game);
+    Enemy enemy(graphics);
+    Menu menu(graphics, nullptr);
+    Game game(graphics, fox, menu, enemy);
+    menu.setGame(&game);
     graphics.playBGM();
     while (true) {
-    SDL_Event event;
-    while (SDL_PollEvent(&event)) {
-        switch (event.type) {
-            case SDL_QUIT:
-                exit(0);
-                break;
-            case SDL_MOUSEBUTTONDOWN:
-                menu.menuevents(event);
-                break;
-            case SDL_USEREVENT:
-                menu.userevents(event);
-                break;
+        SDL_Event event;
+        while (SDL_PollEvent(&event)) {
+            switch (event.type) {
+                case SDL_QUIT:
+                    exit(0);
+                    break;
+                case SDL_MOUSEBUTTONDOWN:
+                    menu.menuevents(event);
+                    break;
+                case SDL_USEREVENT:
+                    menu.userevents(event);
+                    break;
+            }
+            if (!menu.gameStarted) {
+            menu.rendermenu(event);
+            } else {
+            game.run();
+            while (game.gameover) {
+            game.renderOver();
+            game.overEvent();
+            cout<<game.score<<endl;
         }
-        menu.rendermenu(event);
+        }
+        }
     }
-}
     graphics.flushEventQueue();
     graphics.quit();
     return 0;
 }
-
 
 

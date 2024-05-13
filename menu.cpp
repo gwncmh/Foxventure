@@ -1,6 +1,7 @@
 #include "menu.h"
+#include "game.h"
 
-Menu::Menu(Graphics& graphics, Game& game)
+Menu::Menu(Graphics& graphics, Game* game)
     : graphics(graphics), game(game),
       gameStarted(false), helpStarted(false), settingsStarted(false),
       soundisoff(false), musicisoff(false) {
@@ -101,7 +102,6 @@ void Menu::rendermenu(SDL_Event& event) {
             }
         graphics.presentScene();
     }
-
     if (settingsStarted) {
         showSettings();
         if (event.type == SDL_MOUSEBUTTONDOWN) {
@@ -120,27 +120,27 @@ void Menu::rendermenu(SDL_Event& event) {
             if (soundisoff) {
                 graphics.renderTexture(soundoff, SOUND_X, SOUND_Y);
                 Mix_Pause(-1);
-                cerr << "soff" << endl;
             } else {
                 graphics.renderTexture(soundon, SOUND_X, SOUND_Y);
                 Mix_Resume(-1);
-                cerr << "son" << endl;
             }
             if (musicisoff) {
                 graphics.renderTexture(musicoff, MUSIC_X, MUSIC_Y);
                 Mix_PauseMusic();
-                cerr << "moff" << endl;
             } else {
                 graphics.renderTexture(musicon, MUSIC_X, MUSIC_Y);
                 Mix_ResumeMusic();
-                cerr << "mon" << endl;
             }
 
         graphics.presentScene();
     }
 
     if (gameStarted) {
-        game.run();
+        game->run(); // Use -> instead of .
     }
 }
+void Menu::setGame(Game* game) {
+    this->game = game;
+}
+
 

@@ -1,10 +1,11 @@
 # depslib dependency file v1.0
-1715501301 source:d:\ltnc\demosdl\main.cpp
+1715615868 source:d:\ltnc\demosdl\main.cpp
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_ttf.h>
 	<SDL_mixer.h>
+	<cstdlib>
 	<ctime>
 	"def.h"
 	"graphics.h"
@@ -13,9 +14,9 @@
 	"fox.h"
 	"enemy.h"
 
-1715428250 d:\ltnc\demosdl\def.h
+1715612698 d:\ltnc\demosdl\def.h
 
-1715368164 d:\ltnc\demosdl\graphics.h
+1715616192 d:\ltnc\demosdl\graphics.h
 	<bits/stdc++.h>
 	"def.h"
 	<SDL.h>
@@ -25,33 +26,37 @@
 
 1713697143 d:\ltnc\demosdl\frames.h
 
-1715500799 d:\ltnc\demosdl\game.h
+1715619277 d:\ltnc\demosdl\game.h
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_ttf.h>
 	<SDL_mixer.h>
+	<fstream>
 	<cstdlib>
+	<ctime>
 	"fox.h"
 	"enemy.h"
+	"menu.h"
 
-1715501393 d:\ltnc\demosdl\menu.h
+1715509693 d:\ltnc\demosdl\menu.h
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_ttf.h>
 	<SDL_mixer.h>
-	"game.h"
+	"graphics.h"
 
-1715344869 source:d:\ltnc\demosdl\menu.cpp
+1715509156 source:d:\ltnc\demosdl\menu.cpp
 	"menu.h"
+	"game.h"
 
 1714245423 d:\ltnc\demosdl\headers\def.h
 
-1715501301 source:d:\ltnc\demosdl\game.cpp
+1715619531 source:d:\ltnc\demosdl\game.cpp
 	"game.h"
 
-1715417392 d:\ltnc\demosdl\fox.h
+1715595670 d:\ltnc\demosdl\fox.h
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_image.h>
@@ -59,10 +64,10 @@
 	<SDL_mixer.h>
 	"graphics.h"
 
-1715409822 source:d:\ltnc\demosdl\fox.cpp
+1715613283 source:d:\ltnc\demosdl\fox.cpp
 	"fox.h"
 
-1715417825 d:\ltnc\demosdl\enemy.h
+1715595670 d:\ltnc\demosdl\enemy.h
 	"graphics.h"
 	<bits/stdc++.h>
 	<SDL.h>
@@ -70,6 +75,6 @@
 	<SDL_ttf.h>
 	<SDL_mixer.h>
 
-1715499470 source:d:\ltnc\demosdl\enemy.cpp
+1715618747 source:d:\ltnc\demosdl\enemy.cpp
 	"enemy.h"
 
