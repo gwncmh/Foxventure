@@ -27,17 +27,25 @@ private:
     SDL_Texture* grestart;
     SDL_Texture* highScoreTexture;
     SDL_Texture* scoreTexture;
+    SDL_Texture* musicoff;
+    SDL_Texture* musicon;
+    SDL_Texture* ghome;
     Graphics& graphics;
     Fox& fox;
     Menu& menu;
     Enemy& enemy;
+    Enemy& enemy1;
+    Enemy& enemy2;
     SDL_Color color;
     int timebetween = 0;
+    int timebetween1 = 2;
+    int timebetween2 = 4;
+    int maxy,max1,max2;
     bool quit;
-    int MAX_TIME;
     string highScoreText, scoreText;
+    Mix_Chunk* glose;
 public:
-    Game(Graphics& graphics, Fox& fox, Menu& menu, Enemy& enemy);
+    Game(Graphics& graphics, Fox& fox, Menu& menu, Enemy& enemy, Enemy& enemy1, Enemy& enemy2);
     ~Game();
     void run();
     void handleEvents();
@@ -47,6 +55,7 @@ public:
     bool isPaused = false;
     int score;
     int highScore;
+    vector<int> topfive;
     void reset();
     bool gameover, gamepaused;
     void renderOver();
@@ -54,6 +63,7 @@ public:
     void updateHighScore();
     void renderScore();
     void HighScore();
+    bool musicisoff;
 };
 
 #endif // GAME_H_INCLUDED

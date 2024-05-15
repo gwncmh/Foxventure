@@ -16,25 +16,23 @@ public:
     void rendermenu(SDL_Event& event);
     void userevents(SDL_Event& event);
     void showHelp();
-    void showSettings();
+    void showhighscores();
     void returnToMenu(Graphics& graphics);
     void setGame(Game* game);
     bool gameStarted;
-    bool musicisoff;
 private:
     Graphics& graphics;
     Game* game;
+    TTF_Font* scoret;
     SDL_Texture* menu;
-    SDL_Texture* soundoff;
-    SDL_Texture* musicoff;
-    SDL_Texture* soundon;
-    SDL_Texture* musicon;
     SDL_Texture* helpbg;
-    SDL_Texture* settingsbg;
+    SDL_Texture* highscoresbg;
+    SDL_Texture* HSTexture;
+    SDL_Color color;
     int x, y;
+    string HSText;
     bool helpStarted;
-    bool settingsStarted;
-    bool soundisoff;
+    bool highscoresStarted;
 };
 
 

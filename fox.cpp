@@ -1,7 +1,7 @@
 #include "fox.h"
 
-Fox::Fox(Graphics& graphics): graphics(graphics), FOXPOSY(GROUNDFY), isJumping(false), isAttacking(false), quit(false)
-{
+Fox::Fox(Graphics& graphics): graphics(graphics), isJumping(false), isAttacking(false), quit(false)
+{   FOXPOSY=GROUNDFY;
     foxwalk = graphics.loadTexture("pics/fox_walk.png");
     foxattack = graphics.loadTexture("pics/fox_attack.png");
     foxhit = graphics.loadTexture("pics/fox_hit.png");
@@ -37,25 +37,25 @@ void Fox::jump()
 }
 void Fox::update()
 {
-    if (isJumping)
-    {
-        if (FOXPOSY >= MAX_HEIGHT)
+        if (isJumping)
         {
-            FOXPOSY -= JUMP_SPEED;
+            if (FOXPOSY >= MAX_HEIGHT)
+            {
+                FOXPOSY -= JUMP_SPEED;
+            }
+            else
+            {
+                isJumping = false;
+            }
         }
-        else
+        else if (FOXPOSY < GROUNDFY)
         {
-            isJumping = false;
+            FOXPOSY += FALL_SPEED;
         }
-    }
-    else if (FOXPOSY < GROUNDFY)
-    {
-        FOXPOSY += FALL_SPEED;
-    }
-    if (FOXPOSY > GROUNDFY)
-    {
-        FOXPOSY = GROUNDFY;
-    }
+        if (FOXPOSY > GROUNDFY)
+        {
+            FOXPOSY = GROUNDFY;
+        }
     if (isAttacking)
     {
         if (currentSprite == &fattack && fattack.isLastFrame())
@@ -65,7 +65,9 @@ void Fox::update()
         }
     }
 }
-
+bool Fox::onGround(){
+    return FOXPOSY==GROUNDFY;
+}
 void Fox::attack()
 {
     if (!isAttacking)
@@ -87,5 +89,5 @@ void Fox::render(Graphics& graphics)
     graphics.renders(GROUNDFX, FOXPOSY, *currentSprite);
 }
 SDL_Rect Fox::boundary(){
-    return {GROUNDFX-10, FOXPOSY, 80, 110};
+    return {GROUNDFX-3, FOXPOSY, 64, 50};
 }

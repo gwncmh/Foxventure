@@ -30,8 +30,10 @@ int main(int argc, char *argv[]){
     graphics.init();
     Fox fox(graphics);
     Enemy enemy(graphics);
+    Enemy enemy1(graphics);
+    Enemy enemy2(graphics);
     Menu menu(graphics, nullptr);
-    Game game(graphics, fox, menu, enemy);
+    Game game(graphics, fox, menu, enemy, enemy1, enemy2);
     menu.setGame(&game);
     graphics.playBGM();
     while (true) {
@@ -53,6 +55,7 @@ int main(int argc, char *argv[]){
             } else {
             game.run();
             while (game.gameover) {
+            Mix_PauseMusic();
             game.renderOver();
             game.overEvent();
             cout<<game.score<<endl;

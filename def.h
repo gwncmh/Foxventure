@@ -2,47 +2,48 @@
 #define DEF_H_INCLUDED
 const int SCRW = 900;
 const int SCRH = 531;
-
 const int MIX_CHANNEL = -1;
 const int OBSTACLE_CLIPS[][4] = {
-    {0,0,52,27}};
+    {0,0,41,20},
+    {41,0,41,20}};
 const int OBSTACLE_FRAMES = sizeof(OBSTACLE_CLIPS)/sizeof(int)/4;
 const int WALK_CLIPS[][4] = {
-    {   0, 0, 160, 128},
-    { 160, 0, 160, 128},
-    { 320, 0, 160, 128},
-    { 480, 0, 160, 128}};
+    {   0, 0, 160, 64},
+    { 160, 0, 160, 64},
+    { 320, 0, 160, 64},
+    { 480, 0, 160, 64}};
 const int WALK_FRAMES = sizeof(WALK_CLIPS)/sizeof(int)/4;
 const int HIT_CLIPS[][4] = {
-    {   0, 0, 160, 128},
-    { 160, 0, 160, 128},
-    { 320, 0, 160, 128},
-    { 480, 0, 160, 128}};
+    {   0, 0, 160, 64},
+    { 160, 0, 160, 64},
+    { 320, 0, 160, 64},
+    { 480, 0, 160, 64}};
 const int HIT_FRAMES = sizeof(HIT_CLIPS)/sizeof(int)/4;
 
 const int DEAD_CLIPS[][4] = {
-    {   0, 0, 160, 128},
-    { 160, 0, 160, 128},
-    { 320, 0, 160, 128}};
+    {   0, 0, 160, 64},
+    { 160, 0, 160, 64},
+    { 320, 0, 160, 64}};
 const int DEAD_FRAMES = sizeof(DEAD_CLIPS)/sizeof(int)/4;
 const int EDEAD_CLIPS[][4] = {
-    {   0, 0, 72, 72}};
+    {   0, 0, 50, 40},
+    {  50, 0, 50, 40}};
 const int EDEAD_FRAMES = sizeof(EDEAD_CLIPS)/sizeof(int)/4;
 const int ATTACK_CLIPS[][4] = {
-    {   0, 0, 160, 128},
-    { 160, 0, 160, 128},
-    { 320, 0, 160, 128},
-    { 480, 0, 160, 128},
-    { 640, 0, 160, 128},
-    { 800, 0, 160, 128}};
+    {   0, 0, 160, 66},
+    { 160, 0, 160, 66},
+    { 320, 0, 160, 66},
+    { 480, 0, 160, 66},
+    { 640, 0, 160, 66},
+    { 800, 0, 160, 66}};
 const int ATTACK_FRAMES = sizeof(ATTACK_CLIPS)/sizeof(int)/4;
 const int EATTACK_CLIPS[][4] = {
-    {  0, 0, 72, 72},
-    { 72, 0, 72, 72},
-    {144, 0, 72, 72},
-    {216, 0, 72, 72},
-    {288, 0, 72, 72},
-    {360, 0, 72, 72}};
+    {  0, 0, 72, 40},
+    { 72, 0, 72, 40},
+    {144, 0, 72, 40},
+    {216, 0, 72, 40},
+    {288, 0, 72, 40},
+    {360, 0, 72, 40}};
 const int EATTACK_FRAMES = sizeof(EATTACK_CLIPS)/sizeof(int)/4;
 
 const int PLAY_X = SCRW/2-68;
@@ -51,25 +52,19 @@ const int BACK_X = 0;
 const int BACK_Y = 0;
 const int BACK_W = 70;
 const int BACK_H = 70;
-const int SOUND_X = 291;
-const int SOUND_Y = 259;
-const int SOUND_W = 110;
-const int SOUND_H = 110;
-const int MUSIC_X = 291;
-const int MUSIC_Y = 117;
-const int MUSIC_W = 110;
-const int MUSIC_H = 110;
-const int PAUSE_X = 31;
-const int PAUSE_Y = 29;
-const int CONTINUE_X = 31;
-const int CONTINUE_Y = 29;
-
+const int MUSIC_X = 70;
+const int MUSIC_Y = 0;
+const int MUSIC_W = 70;
+const int MUSIC_H = 70;
+const int SCOREX = 445;
+const int SCOREY = 120;
+const int SCOREGAP = 55;
 const int GROUNDFX = 100;
-const int GROUNDFY = 320;
+const int GROUNDFY = 355;
 const int GROUNDSPEED = 1;
 const int JUMP_SPEED = 6;
 const int MAX_HEIGHT = 200;
-const int FALL_SPEED = 8;
+const int FALL_SPEED = 6;
 const int MAX_DELAY = 800;
 const int MIN_DELAY = 300;
 /*

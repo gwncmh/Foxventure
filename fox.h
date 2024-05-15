@@ -7,6 +7,7 @@
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
 #include "graphics.h"
+#include "menu.h"
 using namespace std;
 
 class Fox {
@@ -22,15 +23,16 @@ public:
     Sprite fdeath,fattack;
     int FOXPOSY;
     void reset();
+    bool onGround();
 private:
+    Graphics& graphics;
     SDL_Texture* foxwalk;
     SDL_Texture* foxattack;
     SDL_Texture* foxhit;
     SDL_Texture* foxdeath;
+    Sprite fwalk,fhit;
     Mix_Chunk* gJump;
     Mix_Chunk* gAttack;
-    Sprite fwalk,fhit;
-    Graphics& graphics;
     bool isJumping;
     bool isAttacking;
     bool quit;

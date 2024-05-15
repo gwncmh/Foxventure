@@ -3,33 +3,24 @@
 
 Menu::Menu(Graphics& graphics, Game* game)
     : graphics(graphics), game(game),
-      gameStarted(false), helpStarted(false), settingsStarted(false),
-      soundisoff(false), musicisoff(false) {
+      gameStarted(false), helpStarted(false), highscoresStarted(false) {
     menu = graphics.loadTexture("pics/menu.png");
     helpbg = graphics.loadTexture("pics/helpbg.png");
-    settingsbg = graphics.loadTexture("pics/setting.png");
-    soundoff = graphics.loadTexture("pics/music_off.png");
-    musicoff = graphics.loadTexture("pics/sound_off.png");
-    soundon = graphics.loadTexture("pics/music.png");
-    musicon = graphics.loadTexture("pics/sound.png");
+    highscoresbg = graphics.loadTexture("pics/highscoresbg.png");
     graphics.prepareScene(menu);
     graphics.presentScene();
+    scoret=graphics.loadFont("PeaberryBase.ttf", 50);
+    color = {255, 255, 0, 0};
 }
 Menu:: ~Menu() {
     SDL_DestroyTexture( menu );
     menu = nullptr;
     SDL_DestroyTexture(helpbg);
     helpbg = nullptr;
-    SDL_DestroyTexture(settingsbg);
-    settingsbg = nullptr;
-    SDL_DestroyTexture(soundoff);
-    soundoff = nullptr;
-    SDL_DestroyTexture(musicoff);
-    musicoff = nullptr;
-    SDL_DestroyTexture(soundon);
-    soundon = nullptr;
-    SDL_DestroyTexture(musicon);
-    musicon = nullptr;
+    SDL_DestroyTexture(highscoresbg);
+    highscoresbg = nullptr;
+    SDL_DestroyTexture(HSTexture);
+    HSTexture = NULL;
 }
 void Menu::menuevents(SDL_Event& event) {
     SDL_GetMouseState(&x, &y);
@@ -41,7 +32,7 @@ void Menu::menuevents(SDL_Event& event) {
         case SDL_MOUSEBUTTONDOWN:
             x = event.button.x;
             y = event.button.y;
-            if (!settingsStarted && x >= PLAY_X-63 && x <= PLAY_X-3 &&
+            if (!highscoresStarted && x >= PLAY_X-63 && x <= PLAY_X-3 &&
                 y >= PLAY_Y+98 && y <= PLAY_Y+158) {
                 SDL_Event helpEvent;
                 helpEvent.type = SDL_USEREVENT;
@@ -59,10 +50,10 @@ void Menu::menuevents(SDL_Event& event) {
 
             if (!helpStarted && x >= PLAY_X+135 && x <= PLAY_X+195 &&
                 y >= PLAY_Y+98 && y <= PLAY_Y+158) {
-                SDL_Event settingsEvent;
-                settingsEvent.type = SDL_USEREVENT;
-                settingsEvent.user.code = 3; // Mã định danh cho sự kiện settings
-                SDL_PushEvent(&settingsEvent);
+                SDL_Event highscoresEvent;
+                highscoresEvent.type = SDL_USEREVENT;
+                highscoresEvent.user.code = 3; // Mã định danh cho sự kiện highscores
+                SDL_PushEvent(&highscoresEvent);
             }
             break;
     }
@@ -71,8 +62,19 @@ void Menu::menuevents(SDL_Event& event) {
 void Menu::showHelp() {
     graphics.prepareScene(helpbg);
 }
-void Menu::showSettings() {
-    graphics.prepareScene(settingsbg);
+void Menu::showhighscores() {
+    graphics.prepareScene(highscoresbg);
+    for (int i = 0; i < game->topfive.size(); i++) {
+    HSText = to_string(game->topfive[i]);
+    HSTexture = graphics.renderText(HSText.c_str(), scoret, color);
+    if(game->topfive[i]<10) {
+    graphics.renderTexture(HSTexture, SCOREX, SCOREY + i*SCOREGAP);
+    } else if(game->topfive[i]<100) {
+    graphics.renderTexture(HSTexture, SCOREX-10, SCOREY + i*SCOREGAP);
+    } else if (game->topfive[i]<1000) {
+    graphics.renderTexture(HSTexture, SCOREX-25, SCOREY + i*SCOREGAP);
+    }
+    }
 }
 void Menu::returnToMenu(Graphics& graphics) {
     cerr << "Returning to menu!" << endl;
@@ -87,8 +89,8 @@ void Menu::userevents(SDL_Event& event) {
         gameStarted = true;
         cerr << "Game started!" << endl;
     } else if (event.user.code == 3) {
-        settingsStarted = true;
-        cerr << "Settings enabled!" << endl;
+        highscoresStarted = true;
+        cerr << "Highscores enabled!" << endl;
     }
         }
 void Menu::rendermenu(SDL_Event& event) {
@@ -99,44 +101,23 @@ void Menu::rendermenu(SDL_Event& event) {
         if (event.type == SDL_MOUSEBUTTONDOWN && x >= 0 && x <= 70 && y >= 0 && y <= 70) {
                 returnToMenu(graphics);
                 helpStarted = false;
+                return;
             }
         graphics.presentScene();
     }
-    if (settingsStarted) {
-        showSettings();
+    if (highscoresStarted) {
+        showhighscores();
         if (event.type == SDL_MOUSEBUTTONDOWN) {
             if (x >= 0 && x <= 70 && y >= 0 && y <= 70) {
                 returnToMenu(graphics);
-                settingsStarted = false;
+                highscoresStarted = false;
                 return;
             }
-            if (x >= SOUND_X && x <= SOUND_X+110 && y >= SOUND_Y && y <= SOUND_Y+110) {
-                soundisoff = !soundisoff;
-            }
-            if (x >= MUSIC_X && x <= MUSIC_X+110 && y >= MUSIC_Y && y <= MUSIC_Y+110) {
-                musicisoff = !musicisoff;
-            }
-        }
-            if (soundisoff) {
-                graphics.renderTexture(soundoff, SOUND_X, SOUND_Y);
-                Mix_Pause(-1);
-            } else {
-                graphics.renderTexture(soundon, SOUND_X, SOUND_Y);
-                Mix_Resume(-1);
-            }
-            if (musicisoff) {
-                graphics.renderTexture(musicoff, MUSIC_X, MUSIC_Y);
-                Mix_PauseMusic();
-            } else {
-                graphics.renderTexture(musicon, MUSIC_X, MUSIC_Y);
-                Mix_ResumeMusic();
-            }
-
-        graphics.presentScene();
     }
-
+    graphics.presentScene();
+    }
     if (gameStarted) {
-        game->run(); // Use -> instead of .
+        game->run();
     }
 }
 void Menu::setGame(Game* game) {
