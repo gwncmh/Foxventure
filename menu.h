@@ -31,6 +31,7 @@ private:
     SDL_Texture* playb;
     SDL_Texture* helpb;
     SDL_Texture* hsb;
+    SDL_Texture* prevb;
     SDL_Color color;
     int x, y;
     string HSText;

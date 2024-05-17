@@ -9,11 +9,11 @@ Enemy::Enemy(Graphics& graphics) : graphics(graphics) {
     eattack.init(enemyattack, EATTACK_FRAMES, EATTACK_CLIPS);
     edeath.init(enemydeath, EDEAD_FRAMES, EDEAD_CLIPS);
     obs.init(tileset, OBSTACLE_FRAMES, OBSTACLE_CLIPS);
-    enemyposX=SCRW+450;
+    enemyposX=SCRW+350;
     obsposX=SCRW+20;
     currentSprite = &eattack;
     state=OBSTACLE;
-    speed=1;
+    speed=2;
 }
 
 Enemy::~Enemy() {
@@ -26,6 +26,7 @@ Enemy::~Enemy() {
 }
 
 void Enemy::update() {
+
         if (state == ATTACKING) {
             enemyposX -= speed;
             if (currentSprite == &edeath && edeath.isLastFrame()) {
@@ -36,7 +37,7 @@ void Enemy::update() {
             }
         } else if (state == OBSTACLE) {
             obsposX -= speed;
-            if (obsposX<-29) {
+            if (obsposX<-75) {
                 state = ATTACKING;
             }
         }
@@ -62,7 +63,7 @@ SDL_Rect Enemy::eboundary() {
     return {enemyposX+16, GROUNDFY+19, 43, 30};
 }
 SDL_Rect Enemy::oboundary() {
-    return {obsposX, GROUNDFY+39, 33, 14};
+    return {obsposX+9, GROUNDFY+39, 64, 14};
 }
 
 bool Enemy::isOffScreen() {

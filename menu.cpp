@@ -10,9 +10,10 @@ Menu::Menu(Graphics& graphics, Game* game)
     playb = graphics.loadTexture("pics/playbig.png");
     helpb = graphics.loadTexture("pics/helpbig.png");
     hsb = graphics.loadTexture("pics/prizebig.png");
+    prevb = graphics.loadTexture("pics/prewbig.png");
     graphics.prepareScene(menu);
     graphics.presentScene();
-    scoret=graphics.loadFont("PeaberryBase.ttf", 50);
+    scoret=graphics.loadFont("fonts/PeaberryBase.ttf", 50);
     color = {255, 255, 0, 0};
 }
 Menu:: ~Menu() {
@@ -22,6 +23,12 @@ Menu:: ~Menu() {
     helpbg = nullptr;
     SDL_DestroyTexture(highscoresbg);
     highscoresbg = nullptr;
+    SDL_DestroyTexture(playb);
+    playb = nullptr;
+    SDL_DestroyTexture(helpb);
+    helpb = nullptr;
+    SDL_DestroyTexture(hsb);
+    hsb = nullptr;
     SDL_DestroyTexture(HSTexture);
     HSTexture = NULL;
 }
@@ -62,21 +69,23 @@ void Menu::menuevents(SDL_Event& event) {
             case SDL_MOUSEMOTION:
             x = event.motion.x;
             y = event.motion.y;
-            if (x >= 316 && x <= 381 && y >= 308 && y <= 372) {
+            if (helpStarted==false&&gameStarted==false&&highscoresStarted==false
+            && x >= 316 && x <= 381 && y >= 308 && y <= 372) {
             graphics.renderTexture(helpb, 313, 305);
             graphics.presentScene();
-            } else if (x >= 386 && x <= 504 && y >= 213 && y <= 331) {
+            } else if (helpStarted==false&&gameStarted==false&&highscoresStarted==false
+            && x >= 386 && x <= 504 && y >= 213 && y <= 331) {
             graphics.renderTexture(playb, 385, 214);
             graphics.presentScene();
-            } else if (x >= 518 && x <= 580 && y >= 308 && y <= 372) {
+            } else if (helpStarted==false&&gameStarted==false&&highscoresStarted==false
+            && x >= 518 && x <= 580 && y >= 308 && y <= 372) {
             graphics.renderTexture(hsb, 510, 305);
             graphics.presentScene();
-            } else if (!helpStarted||!gameStarted||!highscoresStarted) {
+            } else if (helpStarted==false&&gameStarted==false&&highscoresStarted==false) {
             graphics.renderTexture(menu,0,0);
             graphics.presentScene();
     }
     break;
-
     }
 }
 
@@ -119,6 +128,10 @@ void Menu::rendermenu(SDL_Event& event) {
 
     if (helpStarted) {
         showHelp();
+        if (event.type == SDL_MOUSEMOTION && x >= 0 && x <= 70 && y >= 0 && y <= 70) {
+            graphics.renderTexture(prevb,0,0);
+            graphics.presentScene();
+        }
         if (event.type == SDL_MOUSEBUTTONDOWN && x >= 0 && x <= 70 && y >= 0 && y <= 70) {
                 returnToMenu(graphics);
                 helpStarted = false;
@@ -128,6 +141,10 @@ void Menu::rendermenu(SDL_Event& event) {
     }
     if (highscoresStarted) {
         showhighscores();
+        if (event.type == SDL_MOUSEMOTION && x >= 0 && x <= 70 && y >= 0 && y <= 70) {
+            graphics.renderTexture(prevb,0,0);
+            graphics.presentScene();
+        }
         if (event.type == SDL_MOUSEBUTTONDOWN) {
             if (x >= 0 && x <= 70 && y >= 0 && y <= 70) {
                 returnToMenu(graphics);

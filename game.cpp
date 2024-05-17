@@ -7,9 +7,13 @@ enemy1(enemy1), enemy2(enemy2), topfive(5,0)
     gpause = graphics.loadTexture("pics/pause.png");
     gcontinue = graphics.loadTexture("pics/continue.png");
     grestart = graphics.loadTexture("pics/restart.png");
+    gclose = graphics.loadTexture("pics/close.png");
     musicoff = graphics.loadTexture("pics/sound_off.png");
     musicon = graphics.loadTexture("pics/sound.png");
     ghome = graphics.loadTexture("pics/menubtn.png");
+    restartb = graphics.loadTexture("pics/restartbig.png");
+    homeb = graphics.loadTexture("pics/menubig.png");
+    closeb = graphics.loadTexture("pics/closebig.png");
     quit = false;
     gameover = false;
     gamepaused=false;
@@ -23,14 +27,16 @@ enemy1(enemy1), enemy2(enemy2), topfive(5,0)
     glose = graphics.loadSound("sounds/lost.wav");
     score=0;
     HighScore();
-    lose=graphics.loadFont("ZeroCool.ttf", 150);
-    scoret=graphics.loadFont("PeaberryBase.ttf", 30);
+    lose=graphics.loadFont("fonts/ZeroCool.ttf", 150);
+    scoret=graphics.loadFont("fonts/PeaberryBase.ttf", 30);
     timebetween=0;
     color = {255, 255, 0, 0};
     SDL_Color color1 = {212, 238, 68, 0};
     losetext = graphics.renderText("YOU LOSE", lose, color);
     losetext1 = graphics.renderText("YOU LOSE", lose, color1);
-
+    frames=0;
+    frames1=0;
+    frames2=0;
 }
 
 Game::~Game() {
@@ -44,6 +50,14 @@ Game::~Game() {
     grestart = nullptr;
     SDL_DestroyTexture( ghome );
     ghome = nullptr;
+    SDL_DestroyTexture( gclose );
+    gclose = nullptr;
+    SDL_DestroyTexture( homeb );
+    homeb = nullptr;
+    SDL_DestroyTexture( restartb );
+    restartb = nullptr;
+    SDL_DestroyTexture( closeb );
+    closeb = nullptr;
     SDL_DestroyTexture( sback.texture );
     SDL_DestroyTexture( sback1.texture );
     SDL_DestroyTexture( sback2.texture );
@@ -126,27 +140,36 @@ void Game::update() {
     cerr << "Obs boundary: (" << obsBox1.x << ", " << obsBox1.x + obsBox1.w << ", " << obsBox1.y + obsBox1.h << ")\n";
     SDL_Rect obsBox2 = enemy2.oboundary();
     cerr << "Obs boundary: (" << obsBox2.x << ", " << obsBox2.x + obsBox2.w << ", " << obsBox2.y + obsBox2.h << ")\n";
-    if(fox.currentSprite!=&fox.fattack) {foxBox.w=30;} else foxBox.w=55;
-    if (enemy.obsposX<=-30) {enemy.obsposX = SCRW+113+rand()%150;}
-    if (enemy1.obsposX<=-30) {enemy1.obsposX = SCRW+271+rand()%150;}
-    if (enemy2.obsposX<=-30) {enemy2.obsposX = SCRW+460+rand()%150;}
+    if(fox.currentSprite!=&fox.fattack) {foxBox.w=30;} else foxBox.w=50;
+    if (enemy.obsposX<=-110) {enemy.obsposX = SCRW+113+rand()%100;}
+    if (enemy1.obsposX<=-110) {enemy1.obsposX = SCRW+271+rand()%150;}
+    if (enemy2.obsposX<=-110) {enemy2.obsposX = SCRW+460+rand()%190;}
     if (enemy.isOffScreen()&&(
         (obsBox1.x+obsBox1.w>=enemyBox.x&&obsBox1.x+obsBox1.w<=enemyBox.x+enemyBox.w)||
-        (obsBox2.x+obsBox2.w>=enemyBox.x&&obsBox2.x+obsBox2.w<=enemyBox.x+enemyBox.w))) {
-        enemy.enemyposX +=100+rand()%150;
+        (obsBox2.x+obsBox2.w>=enemyBox.x&&obsBox2.x+obsBox2.w<=enemyBox.x+enemyBox.w)||
+         (abs(obsBox1.x+obsBox1.w-enemyBox.x)<40)||(abs(obsBox2.x+obsBox2.w-enemyBox.x)<40))&&
+        enemy.state==enemy.ATTACKING) {
+        enemy.enemyposX +=rand()%150;
     }
     if (enemy1.isOffScreen()&&(
         (obsBox.x+obsBox.w>=enemyBox1.x&&obsBox.x+obsBox.w<=enemyBox1.x+enemyBox1.w)||
-        (obsBox2.x+obsBox2.w>=enemyBox1.x&&obsBox2.x+obsBox2.w<=enemyBox1.x+enemyBox1.w))) {
-        enemy1.enemyposX +=200+rand()%150;
+        (obsBox2.x+obsBox2.w>=enemyBox1.x&&obsBox2.x+obsBox2.w<=enemyBox1.x+enemyBox1.w)||
+        (abs(obsBox.x+obsBox.w-enemyBox1.x)<40)||(abs(obsBox2.x+obsBox2.w-enemyBox1.x)<40))&&
+        enemy.state==enemy.ATTACKING) {
+        enemy1.enemyposX +=150+rand()%150;
     }
     if (enemy2.isOffScreen()&&(
         (obsBox1.x+obsBox1.w>=enemyBox2.x&&obsBox1.x+obsBox1.w<=enemyBox2.x+enemyBox2.w)||
-        (obsBox.x+obsBox.w>=enemyBox2.x&&obsBox.x+obsBox.w<=enemyBox2.x+enemyBox2.w))) {
-        enemy2.enemyposX +=300+rand()%150;
+        (obsBox.x+obsBox.w>=enemyBox2.x&&obsBox.x+obsBox.w<=enemyBox2.x+enemyBox2.w)||
+        (abs(obsBox1.x+obsBox1.w-enemyBox2.x)<40)||(abs(obsBox.x+obsBox.w-enemyBox2.x)<40))&&
+        enemy.state==enemy.ATTACKING) {
+        enemy2.enemyposX +=400+rand()%150;
     }
     fox.update();
-    if(enemy.obsposX==enemy1.obsposX&&enemy1.obsposX==enemy2.obsposX&&enemy.obsposX>SCRW) {enemy1.obsposX+=450;enemy2.obsposX+=850;}
+    if(enemy.obsposX==enemy1.obsposX&&enemy1.obsposX==enemy2.obsposX&&enemy.obsposX>SCRW) {enemy1.obsposX+=310;enemy2.obsposX+=830;}
+    if(abs(enemy.obsposX-enemy1.obsposX)<60) {enemy1.obsposX-=30;}
+    if(abs(enemy1.obsposX-enemy2.obsposX)<60){enemy2.obsposX-=30;}
+    if(abs(enemy.obsposX-enemy2.obsposX)<60) {enemy.obsposX-=30;}
     enemy.update();
     enemy1.update();
     enemy2.update();
@@ -170,7 +193,7 @@ void Game::update() {
         enemy1.currentSprite = &enemy1.edeath;
         graphics.presentScene();
         score += 5;
-        enemy1.enemyposX = SCRW+450+rand()%200;
+        enemy1.enemyposX = SCRW+250+rand()%200;
     } else if (fox.currentSprite != &fox.fattack) {
         fox.currentSprite = &fox.fdeath;
         quit = true;
@@ -182,7 +205,7 @@ void Game::update() {
         enemy2.currentSprite = &enemy2.edeath;
         graphics.presentScene();
         score += 5;
-        enemy2.enemyposX = SCRW+700+rand()%100;
+        enemy2.enemyposX = SCRW+500+rand()%100;
     } else if (fox.currentSprite != &fox.fattack) {
         fox.currentSprite = &fox.fdeath;
         quit = true;
@@ -194,22 +217,29 @@ void Game::update() {
         quit = true;
         gameover = true;
     }
-    if ((enemy.speed%2==0&&enemy.obsposX==70)||(enemy.speed%2!=0&&enemy.obsposX==71)) {score += 2;}
     if (SDL_HasIntersection(&foxBox, &obsBox1)) {
         fox.currentSprite = &fox.fdeath;
         quit = true;
         gameover = true;
     }
-    if ((enemy1.speed%2==0&&enemy1.obsposX==70)||(enemy1.speed%2!=0&&enemy1.obsposX==71)) {score += 2;}
      if (SDL_HasIntersection(&foxBox, &obsBox2)) {
         fox.currentSprite = &fox.fdeath;
         quit = true;
         gameover = true;
     }
-    if ((enemy2.speed%2==0&&enemy2.obsposX==70)||(enemy2.speed%2!=0&&enemy2.obsposX==71)) {score += 2;}
+    if ((obsBox.x<75&&obsBox.x>=70))  {frames++;}
+    if ((obsBox1.x<75&&obsBox1.x>=70)) {frames1++;}
+    if ((obsBox2.x<75&&obsBox2.x>=70)) {frames2++;}
+    if (frames==1||frames1==1||frames2==1) {score += 2;}
+    if (enemy.obsposX<0) {frames=0;}
+    if (enemy1.obsposX<0) {frames1=0;}
+    if (enemy2.obsposX<0)  {frames2=0;}
+    if (enemy.enemyposX<0) {enemy.enemyposX=SCRW+120;}
+    if (enemy1.enemyposX<0) {enemy1.enemyposX=SCRW+300;}
+    if (enemy2.enemyposX<0)  {enemy2.enemyposX=SCRW+450;}
     scoreText="Score: "+to_string(score);
     scoreTexture=graphics.renderText(scoreText.c_str(), scoret, color);
-    if(timebetween>=2000&&score>40) {
+    if(timebetween>=2500) {
         enemy.speed+=1;
         enemy1.speed+=1;
         enemy2.speed+=1;
@@ -261,8 +291,6 @@ void Game::renderOver() {
     static bool soundPlayed = false;
     graphics.renderTexture(losetext1, 119, 32);
     graphics.renderTexture(losetext, 114, 31);
-    graphics.renderTexture(grestart, SCRW/2-102, 210);
-    graphics.renderTexture(ghome, SCRW/2+2, 210);
     if (!soundPlayed) {
         graphics.play2(glose);
         soundPlayed = true;
@@ -276,20 +304,48 @@ void Game::renderOver() {
 void Game::overEvent() {
     SDL_Event e;
     while (SDL_PollEvent(&e)) {
-        if (e.type == SDL_MOUSEBUTTONDOWN) {
-            int x, y;
-            SDL_GetMouseState(&x, &y);
-            if (x >= SCRW/2-102 && x <= SCRW/2-2 && y >= 210 && y <= 310) {
+        int x, y;
+        SDL_GetMouseState(&x, &y);
+        switch (e.type) {
+        case SDL_MOUSEMOTION:
+            x = e.motion.x;
+            y = e.motion.y;
+            if (x >= SCRW/2-158 && x <= SCRW/2-64 && y >= 210 && y <= 310) {
+                graphics.renderTexture(restartb, SCRW/2-160, 208);
+                graphics.presentScene();
+            } else if (x >= SCRW/2-46 && x <= SCRW/2+48 && y >= 210 && y <= 310) {
+                graphics.renderTexture(homeb, SCRW/2-52, 208);
+                graphics.presentScene();
+            } else if (x >= SCRW/2+62 && x <= SCRW/2+158 && y >= 210 && y <= 310) {
+                graphics.renderTexture(closeb, SCRW/2+56, 208);
+                graphics.presentScene();
+            } else {
+            graphics.renderTexture(grestart, SCRW/2-158, 210);
+            graphics.renderTexture(ghome, SCRW/2-50, 210);
+            graphics.renderTexture(gclose, SCRW/2+58, 210);
+            }
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            x = e.button.x;
+            y = e.button.y;
+            if (x >= SCRW/2-158 && x <= SCRW/2-60 && y >= 210 && y <= 310) {
                 reset();
             }
-            if (x >= SCRW/2+2 && x <= SCRW/2+102 && y >= 210 && y <= 310) {
+            if (x >= SCRW/2-50 && x <= SCRW/2+48 && y >= 210 && y <= 310) {
                 menu.gameStarted=false;
                 menu.returnToMenu(graphics);
                 reset();
             }
+            if (x >= SCRW/2+54 && x <= SCRW/2+152 && y >= 210 && y <= 310) {
+                exit(0);
+            }
+            break;
         }
     }
 }
+
+
+
 void Game::updateHighScore() {
  if (score > topfive[4]&&score < topfive[3]) {
         topfive[4] = score;

@@ -24,13 +24,14 @@ public:
     bool isOffScreen();
     void reset();
     int speed;
+    enum State { ATTACKING, OBSTACLE };
+    State state;
 private:
     Graphics& graphics;
     SDL_Texture* enemyattack;
     SDL_Texture* enemydeath;
     SDL_Texture* tileset;
-    enum State { ATTACKING, OBSTACLE };
-    State state;
+
 };
 
 #endif // ENEMY_H_INCLUDED

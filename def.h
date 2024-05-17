@@ -4,8 +4,8 @@ const int SCRW = 900;
 const int SCRH = 531;
 const int MIX_CHANNEL = -1;
 const int OBSTACLE_CLIPS[][4] = {
-    {0,0,41,20},
-    {41,0,41,20}};
+    {0,0,82,20},
+    {82,0,82,20}};
 const int OBSTACLE_FRAMES = sizeof(OBSTACLE_CLIPS)/sizeof(int)/4;
 const int WALK_CLIPS[][4] = {
     {   0, 0, 160, 64},

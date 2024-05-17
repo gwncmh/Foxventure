@@ -25,6 +25,10 @@ private:
     SDL_Texture* gpause;
     SDL_Texture* gcontinue;
     SDL_Texture* grestart;
+    SDL_Texture* gclose;
+    SDL_Texture* homeb;
+    SDL_Texture* closeb;
+    SDL_Texture* restartb;
     SDL_Texture* highScoreTexture;
     SDL_Texture* scoreTexture;
     SDL_Texture* musicoff;
@@ -38,10 +42,8 @@ private:
     Enemy& enemy2;
     SDL_Color color;
     int timebetween = 0;
-    int timebetween1 = 2;
-    int timebetween2 = 4;
-    int maxy,max1,max2;
     bool quit;
+    int frames,frames1,frames2;
     string highScoreText, scoreText;
     Mix_Chunk* glose;
 public:

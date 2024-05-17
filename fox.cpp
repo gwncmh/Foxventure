@@ -13,8 +13,8 @@ Fox::Fox(Graphics& graphics): graphics(graphics), isJumping(false), isAttacking(
     gJump = graphics.loadSound("sounds/jump.wav");
     gAttack = graphics.loadSound("sounds/attack.wav");
     currentSprite = &fwalk;
-    JUMP_SPEED = 3;
-    FALL_SPEED = 3;
+    JUMP_SPEED = 4;
+    FALL_SPEED = 4;
 }
 
 Fox::~Fox()
