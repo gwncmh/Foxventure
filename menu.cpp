@@ -7,6 +7,9 @@ Menu::Menu(Graphics& graphics, Game* game)
     menu = graphics.loadTexture("pics/menu.png");
     helpbg = graphics.loadTexture("pics/helpbg.png");
     highscoresbg = graphics.loadTexture("pics/highscoresbg.png");
+    playb = graphics.loadTexture("pics/playbig.png");
+    helpb = graphics.loadTexture("pics/helpbig.png");
+    hsb = graphics.loadTexture("pics/prizebig.png");
     graphics.prepareScene(menu);
     graphics.presentScene();
     scoret=graphics.loadFont("PeaberryBase.ttf", 50);
@@ -56,6 +59,24 @@ void Menu::menuevents(SDL_Event& event) {
                 SDL_PushEvent(&highscoresEvent);
             }
             break;
+            case SDL_MOUSEMOTION:
+            x = event.motion.x;
+            y = event.motion.y;
+            if (x >= 316 && x <= 381 && y >= 308 && y <= 372) {
+            graphics.renderTexture(helpb, 313, 305);
+            graphics.presentScene();
+            } else if (x >= 386 && x <= 504 && y >= 213 && y <= 331) {
+            graphics.renderTexture(playb, 385, 214);
+            graphics.presentScene();
+            } else if (x >= 518 && x <= 580 && y >= 308 && y <= 372) {
+            graphics.renderTexture(hsb, 510, 305);
+            graphics.presentScene();
+            } else if (!helpStarted||!gameStarted||!highscoresStarted) {
+            graphics.renderTexture(menu,0,0);
+            graphics.presentScene();
+    }
+    break;
+
     }
 }
 

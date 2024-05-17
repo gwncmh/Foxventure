@@ -28,6 +28,9 @@ private:
     SDL_Texture* helpbg;
     SDL_Texture* highscoresbg;
     SDL_Texture* HSTexture;
+    SDL_Texture* playb;
+    SDL_Texture* helpb;
+    SDL_Texture* hsb;
     SDL_Color color;
     int x, y;
     string HSText;

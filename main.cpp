@@ -49,6 +49,8 @@ int main(int argc, char *argv[]){
                 case SDL_USEREVENT:
                     menu.userevents(event);
                     break;
+                case SDL_MOUSEMOTION:
+                    menu.menuevents(event);
             }
             if (!menu.gameStarted) {
             menu.rendermenu(event);

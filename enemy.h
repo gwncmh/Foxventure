@@ -17,12 +17,13 @@ public:
     void update();
     void render(Graphics& graphics);
     int enemyposX, obsposX;
-    SDL_Rect eboundary() const;
-    SDL_Rect oboundary() const;
+    SDL_Rect eboundary() ;
+    SDL_Rect oboundary() ;
     Sprite edeath,eattack,obs;
     Sprite* currentSprite;
     bool isOffScreen();
     void reset();
+    int speed;
 private:
     Graphics& graphics;
     SDL_Texture* enemyattack;

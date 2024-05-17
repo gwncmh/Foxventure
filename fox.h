@@ -24,6 +24,8 @@ public:
     int FOXPOSY;
     void reset();
     bool onGround();
+    int JUMP_SPEED;
+    int FALL_SPEED;
 private:
     Graphics& graphics;
     SDL_Texture* foxwalk;

@@ -61,10 +61,7 @@ const int SCOREY = 120;
 const int SCOREGAP = 55;
 const int GROUNDFX = 100;
 const int GROUNDFY = 355;
-const int GROUNDSPEED = 1;
-const int JUMP_SPEED = 6;
 const int MAX_HEIGHT = 200;
-const int FALL_SPEED = 6;
 const int MAX_DELAY = 800;
 const int MIN_DELAY = 300;
 /*

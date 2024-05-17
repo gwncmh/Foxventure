@@ -111,31 +111,54 @@ void Game::run() {
     }
 
 void Game::update() {
-    if (enemy.obsposX<-30) {enemy.obsposX = SCRW+200+rand()%150;}
-    if (enemy1.obsposX<-30) {enemy1.obsposX = SCRW+650+rand()%150;}
-    if (enemy2.obsposX<-30) {enemy2.obsposX = SCRW+1050+rand()%150;}
+    timebetween++;
+    SDL_Rect foxBox = fox.boundary();
+    cerr << "Fox boundary: (" << foxBox.x << ", " << foxBox.x + foxBox.w << ", " << foxBox.y  + foxBox.h << ")\n";
+    SDL_Rect enemyBox = enemy.eboundary();
+    cerr << "Enemy boundary: (" << enemyBox.x << ", " << enemyBox.x + enemyBox.w << ", " << enemyBox.y + enemyBox.h << ")\n";
+    SDL_Rect enemyBox1 = enemy1.eboundary();
+    cerr << "Enemy boundary: (" << enemyBox1.x << ", " << enemyBox1.x + enemyBox1.w << ", " << enemyBox1.y + enemyBox1.h << ")\n";
+    SDL_Rect enemyBox2 = enemy2.eboundary();
+    cerr << "Enemy boundary: (" << enemyBox2.x << ", " << enemyBox2.x + enemyBox2.w << ", " << enemyBox2.y+ enemyBox2.h << ")\n";
+    SDL_Rect obsBox = enemy.oboundary();
+    cerr << "Obs boundary: (" << obsBox.x << ", " << obsBox.x + obsBox.w << ", " << obsBox.y + obsBox.h << ")\n";
+    SDL_Rect obsBox1 = enemy1.oboundary();
+    cerr << "Obs boundary: (" << obsBox1.x << ", " << obsBox1.x + obsBox1.w << ", " << obsBox1.y + obsBox1.h << ")\n";
+    SDL_Rect obsBox2 = enemy2.oboundary();
+    cerr << "Obs boundary: (" << obsBox2.x << ", " << obsBox2.x + obsBox2.w << ", " << obsBox2.y + obsBox2.h << ")\n";
+    if(fox.currentSprite!=&fox.fattack) {foxBox.w=30;} else foxBox.w=55;
+    if (enemy.obsposX<=-30) {enemy.obsposX = SCRW+113+rand()%150;}
+    if (enemy1.obsposX<=-30) {enemy1.obsposX = SCRW+271+rand()%150;}
+    if (enemy2.obsposX<=-30) {enemy2.obsposX = SCRW+460+rand()%150;}
+    if (enemy.isOffScreen()&&(
+        (obsBox1.x+obsBox1.w>=enemyBox.x&&obsBox1.x+obsBox1.w<=enemyBox.x+enemyBox.w)||
+        (obsBox2.x+obsBox2.w>=enemyBox.x&&obsBox2.x+obsBox2.w<=enemyBox.x+enemyBox.w))) {
+        enemy.enemyposX +=100+rand()%150;
+    }
+    if (enemy1.isOffScreen()&&(
+        (obsBox.x+obsBox.w>=enemyBox1.x&&obsBox.x+obsBox.w<=enemyBox1.x+enemyBox1.w)||
+        (obsBox2.x+obsBox2.w>=enemyBox1.x&&obsBox2.x+obsBox2.w<=enemyBox1.x+enemyBox1.w))) {
+        enemy1.enemyposX +=200+rand()%150;
+    }
+    if (enemy2.isOffScreen()&&(
+        (obsBox1.x+obsBox1.w>=enemyBox2.x&&obsBox1.x+obsBox1.w<=enemyBox2.x+enemyBox2.w)||
+        (obsBox.x+obsBox.w>=enemyBox2.x&&obsBox.x+obsBox.w<=enemyBox2.x+enemyBox2.w))) {
+        enemy2.enemyposX +=300+rand()%150;
+    }
     fox.update();
-    if(enemy.obsposX==enemy1.obsposX&&enemy1.obsposX==enemy2.obsposX) {enemy1.obsposX+=250;enemy2.obsposX+=450;}
-
+    if(enemy.obsposX==enemy1.obsposX&&enemy1.obsposX==enemy2.obsposX&&enemy.obsposX>SCRW) {enemy1.obsposX+=450;enemy2.obsposX+=850;}
     enemy.update();
     enemy1.update();
     enemy2.update();
-    sback.scroll(GROUNDSPEED);
-    sback1.scroll(GROUNDSPEED);
-    sback2.scroll(GROUNDSPEED);
-    SDL_Rect foxBox = fox.boundary();
-    SDL_Rect enemyBox = enemy.eboundary();
-    SDL_Rect enemyBox1 = enemy1.eboundary();
-    SDL_Rect enemyBox2 = enemy2.eboundary();
-    SDL_Rect obsBox = enemy.oboundary();
-    SDL_Rect obsBox1 = enemy1.oboundary();
-    SDL_Rect obsBox2 = enemy2.oboundary();
+    sback.scroll(enemy.speed);
+    sback1.scroll(enemy.speed);
+    sback2.scroll(enemy.speed);
     if (SDL_HasIntersection(&foxBox, &enemyBox)) {
     if (fox.currentSprite == &fox.fattack && enemy.currentSprite != &enemy.edeath) {
         enemy.currentSprite = &enemy.edeath;
         graphics.presentScene();
         score += 5;
-        enemy.enemyposX = SCRW+350+rand()%100;
+        enemy.enemyposX = SCRW+150+rand()%100;
     } else if (fox.currentSprite != &fox.fattack) {
         fox.currentSprite = &fox.fdeath;
         quit = true;
@@ -147,7 +170,7 @@ void Game::update() {
         enemy1.currentSprite = &enemy1.edeath;
         graphics.presentScene();
         score += 5;
-        enemy1.enemyposX = SCRW+650+rand()%200;
+        enemy1.enemyposX = SCRW+450+rand()%200;
     } else if (fox.currentSprite != &fox.fattack) {
         fox.currentSprite = &fox.fdeath;
         quit = true;
@@ -159,7 +182,7 @@ void Game::update() {
         enemy2.currentSprite = &enemy2.edeath;
         graphics.presentScene();
         score += 5;
-        enemy2.enemyposX = SCRW+900+rand()%100;
+        enemy2.enemyposX = SCRW+700+rand()%100;
     } else if (fox.currentSprite != &fox.fattack) {
         fox.currentSprite = &fox.fdeath;
         quit = true;
@@ -171,29 +194,35 @@ void Game::update() {
         quit = true;
         gameover = true;
     }
-    if (enemy.obsposX==70||enemy.obsposX==71) {score += 2;}
+    if ((enemy.speed%2==0&&enemy.obsposX==70)||(enemy.speed%2!=0&&enemy.obsposX==71)) {score += 2;}
     if (SDL_HasIntersection(&foxBox, &obsBox1)) {
         fox.currentSprite = &fox.fdeath;
         quit = true;
         gameover = true;
     }
-    if (enemy1.obsposX==70||enemy1.obsposX==71) {score += 2;}
+    if ((enemy1.speed%2==0&&enemy1.obsposX==70)||(enemy1.speed%2!=0&&enemy1.obsposX==71)) {score += 2;}
      if (SDL_HasIntersection(&foxBox, &obsBox2)) {
         fox.currentSprite = &fox.fdeath;
         quit = true;
         gameover = true;
     }
-    if (enemy2.obsposX==70||enemy2.obsposX==71) {score += 2;}
+    if ((enemy2.speed%2==0&&enemy2.obsposX==70)||(enemy2.speed%2!=0&&enemy2.obsposX==71)) {score += 2;}
     scoreText="Score: "+to_string(score);
     scoreTexture=graphics.renderText(scoreText.c_str(), scoret, color);
+    if(timebetween>=2000&&score>40) {
+        enemy.speed+=1;
+        enemy1.speed+=1;
+        enemy2.speed+=1;
+        fox.JUMP_SPEED += 1;
+        fox.FALL_SPEED +=1;
+        timebetween=0;
+    }
 }
 void Game::reset() {
     quit = false;
     gameover = false;
     gamepaused = false;
     timebetween = 0;
-    timebetween1 = 2;
-    timebetween2 = 4;
     score = 0;
     fox.reset();
     enemy.reset();
@@ -203,7 +232,7 @@ void Game::reset() {
     sback1.scrollingOffset = 0;
     sback2.scrollingOffset = -SCRW;
     Mix_RewindMusic();
-    Mix_ResumeMusic();
+    if(!musicisoff){Mix_ResumeMusic();}
 }
 
 
@@ -224,15 +253,6 @@ void Game::render() {
     enemy1.render(graphics);
     enemy2.render(graphics);
     fox.render(graphics);
-    if (enemy.isOffScreen()) {
-        enemy.enemyposX = SCRW;
-    }
-    if (enemy1.isOffScreen()) {
-        enemy1.enemyposX = SCRW;
-    }
-    if (enemy2.isOffScreen()) {
-        enemy1.enemyposX = SCRW;
-    }
     renderScore();
     graphics.presentScene();
 }
