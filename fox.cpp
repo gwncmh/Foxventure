@@ -13,7 +13,7 @@ Fox::Fox(Graphics& graphics): graphics(graphics), isJumping(false), isAttacking(
     gJump = graphics.loadSound("sounds/jump.wav");
     gAttack = graphics.loadSound("sounds/attack.wav");
     currentSprite = &fwalk;
-    JUMP_SPEED = 4;
+    JUMP_SPEED = 3;
     FALL_SPEED = 4;
 }
 
@@ -91,5 +91,5 @@ void Fox::render(Graphics& graphics)
     graphics.renders(GROUNDFX, FOXPOSY, *currentSprite);
 }
 SDL_Rect Fox::boundary(){
-    return {GROUNDFX+49, FOXPOSY, 30, 54};
+    return {GROUNDFX+49, FOXPOSY, 30, 51};
 }

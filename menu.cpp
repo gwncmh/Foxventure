@@ -5,6 +5,7 @@ Menu::Menu(Graphics& graphics, Game* game)
     : graphics(graphics), game(game),
       gameStarted(false), helpStarted(false), highscoresStarted(false) {
     menu = graphics.loadTexture("pics/menu.png");
+    gclose = graphics.loadTexture("pics/closemenu.png");
     helpbg = graphics.loadTexture("pics/helpbg.png");
     highscoresbg = graphics.loadTexture("pics/highscoresbg.png");
     playb = graphics.loadTexture("pics/playbig.png");
@@ -19,6 +20,8 @@ Menu::Menu(Graphics& graphics, Game* game)
 Menu:: ~Menu() {
     SDL_DestroyTexture( menu );
     menu = nullptr;
+    SDL_DestroyTexture( gclose );
+    gclose = nullptr;
     SDL_DestroyTexture(helpbg);
     helpbg = nullptr;
     SDL_DestroyTexture(highscoresbg);
@@ -65,6 +68,10 @@ void Menu::menuevents(SDL_Event& event) {
                 highscoresEvent.user.code = 3; // Mã định danh cho sự kiện highscores
                 SDL_PushEvent(&highscoresEvent);
             }
+            if (!helpStarted && !highscoresStarted && !gameStarted
+                && x >= 830 && x <= SCRW && y >= 0 && y <= 70) {
+                exit(0);
+            }
             break;
             case SDL_MOUSEMOTION:
             x = event.motion.x;
@@ -80,6 +87,10 @@ void Menu::menuevents(SDL_Event& event) {
             } else if (helpStarted==false&&gameStarted==false&&highscoresStarted==false
             && x >= 518 && x <= 580 && y >= 308 && y <= 372) {
             graphics.renderTexture(hsb, 510, 305);
+            graphics.presentScene();
+            } else if (helpStarted==false&&gameStarted==false&&highscoresStarted==false
+            && x >= 830 && x <= SCRW && y >= 0 && y <= 70) {
+            graphics.renderTexture(gclose, 828, 0);
             graphics.presentScene();
             } else if (helpStarted==false&&gameStarted==false&&highscoresStarted==false) {
             graphics.renderTexture(menu,0,0);

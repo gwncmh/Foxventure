@@ -34,9 +34,7 @@ enemy1(enemy1), enemy2(enemy2), topfive(5,0)
     SDL_Color color1 = {212, 238, 68, 0};
     losetext = graphics.renderText("YOU LOSE", lose, color);
     losetext1 = graphics.renderText("YOU LOSE", lose, color1);
-    frames=0;
-    frames1=0;
-    frames2=0;
+    passobs=0;
 }
 
 Game::~Game() {
@@ -127,49 +125,67 @@ void Game::run() {
 void Game::update() {
     timebetween++;
     SDL_Rect foxBox = fox.boundary();
-    cerr << "Fox boundary: (" << foxBox.x << ", " << foxBox.x + foxBox.w << ", " << foxBox.y  + foxBox.h << ")\n";
     SDL_Rect enemyBox = enemy.eboundary();
-    cerr << "Enemy boundary: (" << enemyBox.x << ", " << enemyBox.x + enemyBox.w << ", " << enemyBox.y + enemyBox.h << ")\n";
     SDL_Rect enemyBox1 = enemy1.eboundary();
-    cerr << "Enemy boundary: (" << enemyBox1.x << ", " << enemyBox1.x + enemyBox1.w << ", " << enemyBox1.y + enemyBox1.h << ")\n";
     SDL_Rect enemyBox2 = enemy2.eboundary();
-    cerr << "Enemy boundary: (" << enemyBox2.x << ", " << enemyBox2.x + enemyBox2.w << ", " << enemyBox2.y+ enemyBox2.h << ")\n";
     SDL_Rect obsBox = enemy.oboundary();
-    cerr << "Obs boundary: (" << obsBox.x << ", " << obsBox.x + obsBox.w << ", " << obsBox.y + obsBox.h << ")\n";
+    cerr<<enemy.obsposX<<endl<<enemy1.obsposX<<endl<<enemy2.obsposX<<endl;
     SDL_Rect obsBox1 = enemy1.oboundary();
-    cerr << "Obs boundary: (" << obsBox1.x << ", " << obsBox1.x + obsBox1.w << ", " << obsBox1.y + obsBox1.h << ")\n";
     SDL_Rect obsBox2 = enemy2.oboundary();
-    cerr << "Obs boundary: (" << obsBox2.x << ", " << obsBox2.x + obsBox2.w << ", " << obsBox2.y + obsBox2.h << ")\n";
     if(fox.currentSprite!=&fox.fattack) {foxBox.w=30;} else foxBox.w=50;
-    if (enemy.obsposX<=-110) {enemy.obsposX = SCRW+113+rand()%100;}
-    if (enemy1.obsposX<=-110) {enemy1.obsposX = SCRW+271+rand()%150;}
-    if (enemy2.obsposX<=-110) {enemy2.obsposX = SCRW+460+rand()%190;}
+    if (enemy.obsposX<-145) {enemy.obsposX = SCRW+113+rand()%100;}
+    if (enemy1.obsposX<-145) {enemy1.obsposX = SCRW+371+rand()%150;}
+    if (enemy2.obsposX<-145) {enemy2.obsposX = SCRW+760+rand()%290;}
     if (enemy.isOffScreen()&&(
         (obsBox1.x+obsBox1.w>=enemyBox.x&&obsBox1.x+obsBox1.w<=enemyBox.x+enemyBox.w)||
         (obsBox2.x+obsBox2.w>=enemyBox.x&&obsBox2.x+obsBox2.w<=enemyBox.x+enemyBox.w)||
          (abs(obsBox1.x+obsBox1.w-enemyBox.x)<40)||(abs(obsBox2.x+obsBox2.w-enemyBox.x)<40))&&
         enemy.state==enemy.ATTACKING) {
-        enemy.enemyposX +=rand()%150;
+        enemy.enemyposX +=150+rand()%200;
     }
     if (enemy1.isOffScreen()&&(
         (obsBox.x+obsBox.w>=enemyBox1.x&&obsBox.x+obsBox.w<=enemyBox1.x+enemyBox1.w)||
         (obsBox2.x+obsBox2.w>=enemyBox1.x&&obsBox2.x+obsBox2.w<=enemyBox1.x+enemyBox1.w)||
         (abs(obsBox.x+obsBox.w-enemyBox1.x)<40)||(abs(obsBox2.x+obsBox2.w-enemyBox1.x)<40))&&
         enemy.state==enemy.ATTACKING) {
-        enemy1.enemyposX +=150+rand()%150;
+        enemy1.enemyposX +=350+rand()%150;
     }
     if (enemy2.isOffScreen()&&(
         (obsBox1.x+obsBox1.w>=enemyBox2.x&&obsBox1.x+obsBox1.w<=enemyBox2.x+enemyBox2.w)||
         (obsBox.x+obsBox.w>=enemyBox2.x&&obsBox.x+obsBox.w<=enemyBox2.x+enemyBox2.w)||
         (abs(obsBox1.x+obsBox1.w-enemyBox2.x)<40)||(abs(obsBox.x+obsBox.w-enemyBox2.x)<40))&&
         enemy.state==enemy.ATTACKING) {
-        enemy2.enemyposX +=400+rand()%150;
+        enemy2.enemyposX +=500+rand()%150;
     }
     fox.update();
-    if(enemy.obsposX==enemy1.obsposX&&enemy1.obsposX==enemy2.obsposX&&enemy.obsposX>SCRW) {enemy1.obsposX+=310;enemy2.obsposX+=830;}
-    if(abs(enemy.obsposX-enemy1.obsposX)<60) {enemy1.obsposX-=30;}
-    if(abs(enemy1.obsposX-enemy2.obsposX)<60){enemy2.obsposX-=30;}
-    if(abs(enemy.obsposX-enemy2.obsposX)<60) {enemy.obsposX-=30;}
+    if(enemy.obsposX==enemy1.obsposX&&enemy1.obsposX==enemy2.obsposX&&enemy.obsposX>SCRW) {enemy1.obsposX+=810+rand()%243;enemy2.obsposX+=1230+rand()%412;}
+    if(abs(enemy.obsposX-enemy1.obsposX)<150&&enemy.obsposX<enemy1.obsposX) {enemy1.obsposX+=100;}
+    if(abs(enemy.obsposX-enemy1.obsposX)<150&&enemy.obsposX>enemy1.obsposX) {enemy.obsposX+=100;}
+    if(abs(enemy1.obsposX-enemy2.obsposX)<150&&enemy1.obsposX<enemy2.obsposX){enemy2.obsposX+=150;}
+    if(abs(enemy1.obsposX-enemy2.obsposX)<150&&enemy1.obsposX>enemy2.obsposX){enemy1.obsposX+=150;}
+    if(abs(enemy.obsposX-enemy2.obsposX)<150&&enemy.obsposX>enemy2.obsposX) {enemy.obsposX+=175;}
+    if(abs(enemy.obsposX-enemy2.obsposX)<150&&enemy.obsposX<enemy2.obsposX) {enemy2.obsposX+=175;}
+    if(enemy.obs.getFrame()==3) {obsBox.x=enemy.obsposX+100;obsBox.y=GROUNDFY;}
+    else if(enemy.obs.getFrame()==4) {obsBox.y=GROUNDFY+22;}
+    else if(enemy.obs.getFrame()==5)  {obsBox.x=enemy.obsposX+175;}
+    else if(enemy.obs.getFrame()==6) {obsBox.y=GROUNDFY-14;}
+    else {obsBox={enemy.obsposX+140, GROUNDFY-8, 15, 60};}
+    if(enemy1.obs.getFrame()==3) {obsBox1.x=enemy1.obsposX+100;obsBox1.y=GROUNDFY;}
+    else if(enemy1.obs.getFrame()==4) {obsBox1.y=GROUNDFY+22;}
+    else if(enemy1.obs.getFrame()==5)  {obsBox1.x=enemy1.obsposX+175;}
+    else if(enemy1.obs.getFrame()==6) {obsBox1.y=GROUNDFY-14;}
+    else {obsBox1={enemy1.obsposX+140, GROUNDFY-8, 15, 60};}
+    if(enemy2.obs.getFrame()==3) {obsBox2.x=enemy2.obsposX+100;obsBox2.y=GROUNDFY;}
+    else if(enemy2.obs.getFrame()==4) {obsBox2.y=GROUNDFY+22;}
+    else if(enemy2.obs.getFrame()==5) {obsBox2.x=enemy2.obsposX+175;}
+    else if(enemy2.obs.getFrame()==6) {obsBox2.y=GROUNDFY-14;}
+    else {obsBox2={enemy2.obsposX+140, GROUNDFY-8, 15, 60};}
+    if (enemy.eattack.getFrame()==4||enemy.eattack.getFrame()==5) {enemyBox.x=enemy.enemyposX+5;}
+    else {enemyBox={enemy.enemyposX+25, GROUNDFY+19, 43, 30};}
+    if (enemy1.eattack.getFrame()==4||enemy1.eattack.getFrame()==5) {enemyBox1.x=enemy1.enemyposX+5;}
+    else {enemyBox1={enemy1.enemyposX+25, GROUNDFY+19, 43, 30};}
+    if (enemy2.eattack.getFrame()==4||enemy2.eattack.getFrame()==5) {enemyBox2.x=enemy2.enemyposX+5;}
+    else {enemyBox2={enemy2.enemyposX+25, GROUNDFY+19, 43, 30};}
     enemy.update();
     enemy1.update();
     enemy2.update();
@@ -182,6 +198,7 @@ void Game::update() {
         graphics.presentScene();
         score += 5;
         enemy.enemyposX = SCRW+150+rand()%100;
+        enemy.state = enemy.OBSTACLE;
     } else if (fox.currentSprite != &fox.fattack) {
         fox.currentSprite = &fox.fdeath;
         quit = true;
@@ -194,6 +211,7 @@ void Game::update() {
         graphics.presentScene();
         score += 5;
         enemy1.enemyposX = SCRW+250+rand()%200;
+        enemy1.state = enemy1.OBSTACLE;
     } else if (fox.currentSprite != &fox.fattack) {
         fox.currentSprite = &fox.fdeath;
         quit = true;
@@ -206,45 +224,38 @@ void Game::update() {
         graphics.presentScene();
         score += 5;
         enemy2.enemyposX = SCRW+500+rand()%100;
+        enemy2.state = enemy2.OBSTACLE;
     } else if (fox.currentSprite != &fox.fattack) {
         fox.currentSprite = &fox.fdeath;
         quit = true;
         gameover = true;
         }
     }
-    if (SDL_HasIntersection(&foxBox, &obsBox)) {
-        fox.currentSprite = &fox.fdeath;
+    if (SDL_HasIntersection(&foxBox, &obsBox)|| SDL_HasIntersection(&foxBox, &obsBox1)||SDL_HasIntersection(&foxBox, &obsBox2)) {
         quit = true;
         gameover = true;
-    }
-    if (SDL_HasIntersection(&foxBox, &obsBox1)) {
         fox.currentSprite = &fox.fdeath;
-        quit = true;
-        gameover = true;
-    }
-     if (SDL_HasIntersection(&foxBox, &obsBox2)) {
-        fox.currentSprite = &fox.fdeath;
-        quit = true;
-        gameover = true;
-    }
-    if ((obsBox.x<75&&obsBox.x>=70))  {frames++;}
-    if ((obsBox1.x<75&&obsBox1.x>=70)) {frames1++;}
-    if ((obsBox2.x<75&&obsBox2.x>=70)) {frames2++;}
-    if (frames==1||frames1==1||frames2==1) {score += 2;}
-    if (enemy.obsposX<0) {frames=0;}
-    if (enemy1.obsposX<0) {frames1=0;}
-    if (enemy2.obsposX<0)  {frames2=0;}
+    } else {
+            passobs++;
+            if (passobs>70) {
+                score++;
+                passobs=0;
+            }
+        }
+    if (enemy.obsposX<-145) {score+=2;enemy.state=enemy.ATTACKING;}
+    if (enemy1.obsposX<-145) {score+=2;enemy1.state=enemy1.ATTACKING;}
+    if (enemy2.obsposX<-145) {score+=2;enemy2.state=enemy2.ATTACKING;}
     if (enemy.enemyposX<0) {enemy.enemyposX=SCRW+120;}
-    if (enemy1.enemyposX<0) {enemy1.enemyposX=SCRW+300;}
-    if (enemy2.enemyposX<0)  {enemy2.enemyposX=SCRW+450;}
+    if (enemy1.enemyposX<0) {enemy1.enemyposX=SCRW+500;}
+    if (enemy2.enemyposX<0)  {enemy2.enemyposX=SCRW+950;}
     scoreText="Score: "+to_string(score);
     scoreTexture=graphics.renderText(scoreText.c_str(), scoret, color);
-    if(timebetween>=2500) {
+    if(timebetween>=1600) {
         enemy.speed+=1;
         enemy1.speed+=1;
         enemy2.speed+=1;
-        fox.JUMP_SPEED += 1;
-        fox.FALL_SPEED +=1;
+        fox.JUMP_SPEED+=1;
+        fox.FALL_SPEED+=1;
         timebetween=0;
     }
 }
@@ -285,12 +296,21 @@ void Game::render() {
     fox.render(graphics);
     renderScore();
     graphics.presentScene();
+    soundPlayed = false;
 }
 
 void Game::renderOver() {
-    static bool soundPlayed = false;
     graphics.renderTexture(losetext1, 119, 32);
     graphics.renderTexture(losetext, 114, 31);
+    graphics.renderTexture(gcontinue, 0, 0);
+    if (musicisoff) {
+                    graphics.renderTexture(musicoff, MUSIC_X, MUSIC_Y);
+                    Mix_PauseMusic();
+                }
+                else {
+                        graphics.renderTexture(musicon, MUSIC_X, MUSIC_Y);
+                        Mix_ResumeMusic();
+                    }
     if (!soundPlayed) {
         graphics.play2(glose);
         soundPlayed = true;
@@ -338,6 +358,9 @@ void Game::overEvent() {
             }
             if (x >= SCRW/2+54 && x <= SCRW/2+152 && y >= 210 && y <= 310) {
                 exit(0);
+            }
+            if (x >= 70 && x <= 140 && y >= 0 && y <= 70) {
+                    musicisoff=!musicisoff;
             }
             break;
         }

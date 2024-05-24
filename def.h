@@ -4,8 +4,13 @@ const int SCRW = 900;
 const int SCRH = 531;
 const int MIX_CHANNEL = -1;
 const int OBSTACLE_CLIPS[][4] = {
-    {0,0,82,20},
-    {82,0,82,20}};
+    {0,0,130,82},
+    {130,0,130,82},
+    {130*2,0,130,82},
+    {130*3,0,130,121},
+    {130*4,0,130+4,121},
+    {130*5+4,0,130,82},
+    {130*6,0,130,82}};
 const int OBSTACLE_FRAMES = sizeof(OBSTACLE_CLIPS)/sizeof(int)/4;
 const int WALK_CLIPS[][4] = {
     {   0, 0, 160, 64},
@@ -45,7 +50,7 @@ const int EATTACK_CLIPS[][4] = {
     {288, 0, 72, 40},
     {360, 0, 72, 40}};
 const int EATTACK_FRAMES = sizeof(EATTACK_CLIPS)/sizeof(int)/4;
-
+static bool soundPlayed = false;
 const int PLAY_X = SCRW/2-68;
 const int PLAY_Y = SCRH/2-50;
 const int BACK_X = 0;
@@ -59,7 +64,7 @@ const int MUSIC_H = 70;
 const int SCOREX = 445;
 const int SCOREY = 120;
 const int SCOREGAP = 55;
-const int GROUNDFX = 100;
+const int GROUNDFX = 89;
 const int GROUNDFY = 355;
 const int MAX_HEIGHT = 200;
 const int MAX_DELAY = 800;

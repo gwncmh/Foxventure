@@ -43,9 +43,9 @@ private:
     SDL_Color color;
     int timebetween = 0;
     bool quit;
-    int frames,frames1,frames2;
     string highScoreText, scoreText;
     Mix_Chunk* glose;
+    int passobs;
 public:
     Game(Graphics& graphics, Fox& fox, Menu& menu, Enemy& enemy, Enemy& enemy1, Enemy& enemy2);
     ~Game();

@@ -26,6 +26,7 @@ public:
     bool onGround();
     int JUMP_SPEED;
     int FALL_SPEED;
+    int flim;
 private:
     Graphics& graphics;
     SDL_Texture* foxwalk;

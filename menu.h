@@ -25,6 +25,7 @@ private:
     Game* game;
     TTF_Font* scoret;
     SDL_Texture* menu;
+    SDL_Texture* gclose;
     SDL_Texture* helpbg;
     SDL_Texture* highscoresbg;
     SDL_Texture* HSTexture;
