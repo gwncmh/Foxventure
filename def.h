@@ -50,7 +50,7 @@ const int EATTACK_CLIPS[][4] = {
     {288, 0, 72, 40},
     {360, 0, 72, 40}};
 const int EATTACK_FRAMES = sizeof(EATTACK_CLIPS)/sizeof(int)/4;
-static bool soundPlayed = false;
+
 const int PLAY_X = SCRW/2-68;
 const int PLAY_Y = SCRH/2-50;
 const int BACK_X = 0;

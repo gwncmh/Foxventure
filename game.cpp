@@ -26,6 +26,7 @@ enemy1(enemy1), enemy2(enemy2), topfive(5,0)
     sback2.scrollingOffset = -SCRW;
     glose = graphics.loadSound("sounds/lost.wav");
     score=0;
+    loseplay=0;
     HighScore();
     lose=graphics.loadFont("fonts/ZeroCool.ttf", 150);
     scoret=graphics.loadFont("fonts/PeaberryBase.ttf", 30);
@@ -265,6 +266,7 @@ void Game::reset() {
     gamepaused = false;
     timebetween = 0;
     score = 0;
+    loseplay=0;
     fox.reset();
     enemy.reset();
     enemy1.reset();
@@ -296,10 +298,10 @@ void Game::render() {
     fox.render(graphics);
     renderScore();
     graphics.presentScene();
-    soundPlayed = false;
 }
 
 void Game::renderOver() {
+    loseplay++;
     graphics.renderTexture(losetext1, 119, 32);
     graphics.renderTexture(losetext, 114, 31);
     graphics.renderTexture(gcontinue, 0, 0);
@@ -311,9 +313,8 @@ void Game::renderOver() {
                         graphics.renderTexture(musicon, MUSIC_X, MUSIC_Y);
                         Mix_ResumeMusic();
                     }
-    if (!soundPlayed) {
-        graphics.play2(glose);
-        soundPlayed = true;
+    if(loseplay==1){
+    graphics.play2(glose);
     }
     updateHighScore();
     renderScore();

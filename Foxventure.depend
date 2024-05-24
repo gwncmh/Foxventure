@@ -19,7 +19,7 @@
 	<SDL_ttf.h>
 	<SDL_mixer.h>
 
-1716568301 d:\ltnc\demosdl\def.h
+1716574228 d:\ltnc\demosdl\def.h
 
 1716543051 source:d:\ltnc\demosdl\fox.cpp
 	"fox.h"
@@ -44,7 +44,7 @@
 1716566568 source:d:\ltnc\demosdl\game.cpp
 	"game.h"
 
-1716566761 d:\ltnc\demosdl\game.h
+1716574374 d:\ltnc\demosdl\game.h
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_image.h>

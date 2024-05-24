@@ -42,6 +42,7 @@ private:
     Enemy& enemy2;
     SDL_Color color;
     int timebetween = 0;
+    int loseplay;
     bool quit;
     string highScoreText, scoreText;
     Mix_Chunk* glose;
@@ -53,7 +54,6 @@ public:
     void handleEvents();
     void update();
     void render();
-    bool checkCollision(Fox fox, Enemy enemy);
     bool isPaused = false;
     int score;
     int highScore;
