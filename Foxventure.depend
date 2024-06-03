@@ -41,7 +41,7 @@
 	<SDL_mixer.h>
 	"graphics.h"
 
-1716566568 source:d:\ltnc\demosdl\game.cpp
+1717137498 source:d:\ltnc\demosdl\game.cpp
 	"game.h"
 
 1716574374 d:\ltnc\demosdl\game.h
@@ -57,7 +57,7 @@
 	"enemy.h"
 	"menu.h"
 
-1715876015 source:d:\ltnc\demosdl\main.cpp
+1717135729 source:d:\ltnc\demosdl\main.cpp
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_image.h>

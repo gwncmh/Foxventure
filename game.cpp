@@ -70,8 +70,10 @@ Game::~Game() {
     musicoff = nullptr;
     SDL_DestroyTexture(musicon);
     musicon = nullptr;
+    TTF_CloseFont(lose);
+    TTF_CloseFont(scoret);
+    Mix_FreeChunk(glose);
 }
-
 void Game::run() {
     SDL_Event e;
     while( !quit ) {
@@ -130,7 +132,6 @@ void Game::update() {
     SDL_Rect enemyBox1 = enemy1.eboundary();
     SDL_Rect enemyBox2 = enemy2.eboundary();
     SDL_Rect obsBox = enemy.oboundary();
-    cerr<<enemy.obsposX<<endl<<enemy1.obsposX<<endl<<enemy2.obsposX<<endl;
     SDL_Rect obsBox1 = enemy1.oboundary();
     SDL_Rect obsBox2 = enemy2.oboundary();
     if(fox.currentSprite!=&fox.fattack) {foxBox.w=30;} else foxBox.w=50;

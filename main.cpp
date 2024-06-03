@@ -60,7 +60,6 @@ int main(int argc, char *argv[]){
             Mix_PauseMusic();
             game.renderOver();
             game.overEvent();
-            cout<<game.score<<endl;
         }
         }
         }
